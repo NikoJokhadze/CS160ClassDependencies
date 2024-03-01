@@ -10,7 +10,7 @@
 Clone the project  
 
 ~~~bash  
-  git clone github.com/NikoJokhadze/CS160ClassDependencies
+  git clone https://github.com/NikoJokhadze/CS160ClassDependencies.git
 ~~~
 
 Go to the project directory  
