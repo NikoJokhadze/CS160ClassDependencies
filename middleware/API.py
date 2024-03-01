@@ -31,18 +31,10 @@ def database():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        # should return syntax error
-        cursor.execute("SELECT VERSION() AS version, DATABASE() AS database, USER() AS user")
-        result = cursor.fetchone()
+        cursor.execute("SELECT * FROM Users")
+        result = cursor.fetchall()
 
-        # Format the result
-        server_info = {
-            'version': result[0],
-            'database': result[1],
-            'user': result[2]
-        }
-
-        return jsonify(server_info)
+        return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)})
     finally:
