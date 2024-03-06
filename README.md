@@ -2,7 +2,7 @@
 
 ## Structure  
 - React Frontend Server with Nodejs (port 42069) 
-- API middleware (port 5000)  
+- API middleware (port 5001)  
 - Database with MySQL (port 3306 [unsure])
   - phpmyadmin (port 2000)
 
