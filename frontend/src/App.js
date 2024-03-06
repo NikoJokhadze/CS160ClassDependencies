@@ -8,7 +8,7 @@ function App() {
 
   const callMiddlewareAPI = async () => {
     try {
-      const response = await fetch('http://localhost:5000/hello');
+      const response = await fetch('http://localhost:5001/hello');
       const data = await response.json();
       setMessage(data.message);
       setResponseText(data.message); // Set response text when API call is returned
