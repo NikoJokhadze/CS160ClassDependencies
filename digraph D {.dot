@@ -1,0 +1,98 @@
+digraph G  {
+	fontname="Helvetica,Arial,sans-serif"
+    
+	node [
+        fontname="Helvetica,Arial,sans-serif" 
+        shape=plaintext
+        style =filled
+		shape =rect
+        //color = black
+        fillcolor ="#aef7aeff";
+        ]
+	edge[
+        fontname = "Helvetica,Arial,sans-serif"
+        penwidth = 2 // make the arrow bold
+        ]
+	//layout=neato
+	//center=""
+	//node[width=.25,height=.375,fontsize=9]
+
+
+    // define the rank of the classes(nodes)
+    //take off the "layout=neato", with or without rank: both work
+    { rank = same; CS49J; CS46A; }
+    { rank = same; CS46B; Math42}
+    { rank = same; CS146; CS147; CS154; }
+
+    // define edges
+	CS49J -> CS46B [color="green"]
+    CS46A -> CS46B [color="green"]
+    CS46B -> CS146 [color="green"]
+    CS46B -> CS147 [color="green"]
+    CS46B -> CS154 [color="green"]
+    Math42 -> CS154 [color="green"]
+    CS146 -> CS134 [color="green"]
+    CS146 -> CS157A [color="green"]
+	
+    // define the nodes by rank order
+    /*BORDER="0" removes the border around the entire table.
+    CELLBORDER="1" adds a border around each cell.
+    CELLSPACING="0" removes the spacing between cells.
+    CELLPADDING="4" adds padding inside each cell.
+    TR: table row; 
+    TD: tabla data/table cell*/
+	CS49J [label="CS49J",shape=plaintext,fontsize=9];
+    CS49J [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD> CS49J </TD></TR> 
+        <TR><TD> 3 Units </TD></TR>
+        </TABLE>>];
+    
+    CS46A [label="CS46A",shape=plaintext,fontsize=9];
+    CS46A [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS46A </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+
+    CS46B [label="CS46B",shape=plaintext,fontsize=9];
+    CS46B [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS46B </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+    Math42 [label="Math42",shape=plaintext,fontsize=9];
+    Math42 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> Math42 </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+
+    CS146 [label="CS146",shape=plaintext,fontsize=9];
+    CS146 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS146 </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+    CS147 [label="CS147",shape=plaintext,fontsize=9];
+    CS147 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS147 </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+    CS154 [label="CS154",shape=plaintext,fontsize=9];
+    CS154 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS154 </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+
+    CS134 [label="CS134",shape=plaintext,fontsize=9];
+    CS134 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS134 </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+    CS157A [label="CS157A",shape=plaintext,fontsize=9];
+    CS157A [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+          <TR><TD> CS157A </TD></TR> 
+          <TR><TD> 3 Units </TD></TR>
+          </TABLE>>];
+
+
+	
+
+	
+}
