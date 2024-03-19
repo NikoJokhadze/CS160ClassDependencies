@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+
 function App() {
+ 
+  // Function to handle button click
+  const handleClick = () => {
+    console.log('Button clicked!');
+    // Add your desired action here
+  };
   const [message, setMessage] = useState('');
   const [responseText, setResponseText] = useState('');
 
@@ -22,12 +30,29 @@ function App() {
   };
 
   return (
+    
     <div className="App">
+
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        {/*<img src={logo} className="App-logo" alt="logo" />*/}
+        {/*<p>Edit <code>src/App.js</code> and save to reload.</p>*/}
+        <h1>MajorView</h1>
+
+        <button className="button">Home</button>
+        {/*link "Major Class Dependency Graph" button to a PNG file*/}
+        {/*target="_blank" Attribute: Adding target="_blank":the link opens in a new tab.*/}
+        {/*rel="noopener noreferrer" Attribute: Adding rel="noopener noreferrer" : 
+        opening links in a new tab/window to prevent potential security vulnerabilities.*/}
+        <a href = "lowversion.png" target = "_blank" rel="noopener noreferrer">
+        <button className="button">Major Class Dependency Graph</button>
+        </a>
+        <button className="button">Suggested Classes</button>
+        {/*<button className="button">Call Middleware API</button>*/}
+        
+
+        {/*<button onClick={handleClick}>Home</button>
+        <button onClick={handleClick}>Major Class Dependency Grap</button>
+        <button onClick={handleClick}>Suggested Classes</button>*/}
         <button onClick={callMiddlewareAPI}>Call Middleware API</button>
         {message && <p>{message}</p>}
         {/* Display text box with the response */}
@@ -53,6 +78,7 @@ function App() {
       </header>
     </div>
   );
+  
 }
 
 export default App;
