@@ -4,12 +4,12 @@ create table Course (
     course_name varchar(999) not null, -- The full name of the course
     department varchar(99) not null, -- The department that the course belongs to
     course_description TEXT not null, -- A general description of the course
-    units int null, -- The total number of units the course satisfies
+    units int not null, -- The total number of units the course satisfies
     grading_type varchar(99) not null, -- The type of grading (i.e. letter grade)
     grade_requirement varchar(2) not null, -- The minimum required grade to pass
     GE_area varchar(999) not null default "", -- Note if a course satisfies a certain general education requirement
     course_level varchar(99) not null, -- Note if a course is an undergrad, grad, or post-grad course
-    course_mandate varchar(9) not null, -- Note if a course is mandatory or not, based on either GE or major core class specifications
+    course_mandate boolean not null, -- Note if a course is mandatory or not, based on either GE or major core class specifications
     course_notes TEXT not null default "", -- Note any additional notes for the course
     primary key (course_id)
 );
