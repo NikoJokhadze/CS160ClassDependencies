@@ -9,7 +9,6 @@ create table Course (
     grade_requirement varchar(2) not null, -- The minimum required grade to pass
     GE_area varchar(999) not null default "", -- Note if a course satisfies a certain general education requirement
     course_level varchar(99) not null, -- Note if a course is an undergrad, grad, or post-grad course
-    course_mandate boolean not null, -- Note if a course is mandatory or not, based on either GE or major core class specifications
     course_notes TEXT not null default "", -- Note any additional notes for the course
     primary key (course_id)
 );
@@ -69,6 +68,7 @@ create table MajorGroup (
 create table MajorGroupCourse (
     group_name varchar(99) not null,
     course_id varchar(99) not null,
+    course_mandate boolean not null, -- Note if a course is mandatory or not, based on either GE or major core class specifications
     foreign key group_name references Major(group_name),
     foreign key course_id references Course(course_id)
 );
