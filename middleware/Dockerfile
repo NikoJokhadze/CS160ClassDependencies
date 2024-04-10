@@ -5,10 +5,6 @@ WORKDIR /app
 
 COPY API.py .
 
-RUN pip install flask
-
-RUN pip install flask_cors
-
-RUN pip install mysql-connector-python
+RUN pip install requirements.txt
 
 CMD ["python", "API.py"]
