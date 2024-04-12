@@ -9,7 +9,7 @@ create table if not exists Course (
     course_name_short varchar(99) not null, -- The shortened name of a course
     department_name varchar(99) not null, -- The department that the course belongs to
     course_description TEXT not null, -- A general description of the course
-    units int not null, -- The total number of units the course satisfies
+    units varchar(3) not null, -- The total number of units the course satisfies, can be an int or a range like 1-3
     grading_type varchar(99) not null, -- The type of grading (i.e. letter grade)
     grade_requirement varchar(2) not null, -- The minimum required grade to pass
     prerequisites TEXT not null, -- This line, as well as the following 2 lines, are text descriptions
@@ -71,7 +71,7 @@ create table if not exists Major (
 create table if not exists MajorGroup (
     group_name varchar (99) not null, -- Groups include subsections of a major, such as "Approved Science Electives (8 units)" or "Upper Division (27 units)"
     major_name varchar (99) not null,
-    min_units int not null default 0, -- The number representing the minimum units needed to satisfy the group
+    min_units varchar(3) not null default "", -- The number representing the minimum units needed to satisfy the group
     min_courses int  not null default 0, -- Represents the minimum number of courses needed to satisfy the group
     primary key (group_name),
     foreign key (major_name) references Major(major_name)
