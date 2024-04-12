@@ -62,3 +62,5 @@ export default ({ dot, width, height }) => {
     </div>
   );
 };
+
+
