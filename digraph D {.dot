@@ -98,13 +98,6 @@ digraph G  {
 
     Math161A -> Math162 [color="green"]
     
-    
-    
-    
-    
-    
-   
-
 	
     // define the nodes by rank order
     /*BORDER="0" removes the border around the entire table.
