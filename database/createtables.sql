@@ -12,6 +12,9 @@ create table if not exists Course (
     units int not null, -- The total number of units the course satisfies
     grading_type varchar(99) not null, -- The type of grading (i.e. letter grade)
     grade_requirement varchar(2) not null, -- The minimum required grade to pass
+    prerequisites TEXT not null, -- This line, as well as the following 2 lines, are text descriptions
+    corequisites TEXT not null,
+    pre_co_requisites TEXT not null,
     misc_lab varchar(999) not null, -- Details if a course has lab hours included
     GE_area varchar(999) not null default "", -- Note if a course satisfies a certain general education requirement
     course_level varchar(99) not null, -- Note if a course is an undergrad, grad, or post-grad course
@@ -22,25 +25,31 @@ create table if not exists Course (
 -- This table acts as a list of prerequisites that a course would require
 create table if not exists Prereq (
     course_id int not null,
-    prereq_id varchar(99) not null,
-    grade_requirement varchar(2) not null,
-    foreign key (course_id) references Course(course_id)
+    prereq_id int not null,
+    grade_requirement varchar(2) not null default 'C-',
+    foreign key (course_id) references Course(course_id),
+    foreign key (prereq_id) references Course(course_id),
+    unique (course_id, prereq_id)
 );
 
 -- This table acts as a list of corequisites that a course would require
 create table if not exists Coreq (
     course_id int not null,
-    coreq_id varchar(99) not null,
-    grade_requirement varchar(2) not null,
-    foreign key (course_id) references Course(course_id)
+    coreq_id int not null,
+    grade_requirement varchar(2) not null default 'C-',
+    foreign key (course_id) references Course(course_id),
+    foreign key (coreq_id) references Course(course_id),
+    unique (course_id, coreq_id)
 );
 
 -- This is a special case table that lists if classes list other classes as both pre and coreqs
 create table if not exists PreCoreq (
     course_id int not null,
-    precoreq_id varchar(99) not null,
-    grade_requirement varchar(2) not null,
-    foreign key (course_id) references Course(course_id)
+    precoreq_id int not null,
+    grade_requirement varchar(2) not null default 'C-',
+    foreign key (course_id) references Course(course_id),
+    foreign key (precoreq_id) references Course(course_id),
+    unique (course_id, precoreq_id)
 );
 
 -- This table lists out any cross-listing a course has with a different department
