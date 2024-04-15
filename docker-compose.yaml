@@ -17,7 +17,7 @@ services:
       - database
 
   database:
-    container_name: db
+    container_name: database
     build: ./database
     restart: always
     environment:
@@ -31,7 +31,7 @@ services:
     restart: always
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: db
+      PMA_HOST: database
     depends_on: 
       - database
     ports:

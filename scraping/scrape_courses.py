@@ -11,11 +11,17 @@ import re
 # catid 3, coid ????-?????
 # it seems catid 3-9 are skipped
 # catid 10, coid 40626-46233
+# catid 13, coid 114750-120479
 
+
+# TODO add sustainability parsing
 # another special case: https://catalog.sjsu.edu/ajax/preview_course.php?catoid=10&coid=40626&display_options=&show
-MIN_CID = 5455
-MAX_CID = 10879
-CATID = 2
+# https://catalog.sjsu.edu/ajax/preview_course.php?catoid=13&coid=114750&display_options=&show
+# TODO fix this lab entry scraping for tech 60
+# https://catalog.sjsu.edu/ajax/preview_course.php?catoid=13&coid=120000&display_options=&show
+MIN_CID = 114750
+MAX_CID = 120479
+CATID = 13
 MAX_CONCURRENT_REQUESTS = 16  
 MAX_RETRIES = 3 
 BASE_URL = "https://catalog.sjsu.edu/ajax/preview_course.php?catoid="+str(CATID)+"&coid={}&display_options=&show"
