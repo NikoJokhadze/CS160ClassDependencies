@@ -1,4 +1,4 @@
-LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed.csv'
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_courses.csv'
     INTO TABLE Course
     FIELDS TERMINATED BY ',' 
     OPTIONALLY ENCLOSED BY '"' -- fields optionally enclosed by double quotes
@@ -20,3 +20,10 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed.csv'
     GE_area, 
     course_level, 
     course_notes);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_prereq.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE Prereq
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (course_id, prereq_id);

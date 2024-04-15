@@ -10,9 +10,13 @@ COPY importdata.sql /docker-entrypoint-initdb.d/
 # These are run in ALPHABETICAL ORDER
 
 COPY courses.csv docker-entrypoint-initdb.d
+COPY prereq.csv docker-entrypoint-initdb.d
 
 # this issue took 4 hours to find, if going back to mysql remember this
-RUN tr -d '\r' < /docker-entrypoint-initdb.d/courses.csv > /docker-entrypoint-initdb.d/fixed.csv
+RUN tr -d '\r' < /docker-entrypoint-initdb.d/courses.csv > /docker-entrypoint-initdb.d/fixed_courses.csv
+RUN tr -d '\r' < /docker-entrypoint-initdb.d/prereq.csv > /docker-entrypoint-initdb.d/fixed_prereq.csv
+
+RUN rm /docker-entrypoint-initdb.d/courses.csv /docker-entrypoint-initdb.d/prereq.csv
 
 # Legacy in case we want to go back
 # # Dockerfile
