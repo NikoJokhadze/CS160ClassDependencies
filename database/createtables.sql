@@ -51,7 +51,7 @@ create table if not exists PreCoreq (
 );
 
 -- This table lists out any cross-listing a course has with a different department
-create table if not exists CrossListing (
+create table if not exists CrossList (
     course_id int not null,
     cross_id int not null,
     -- grade_requirement varchar(2) not null default 'C-',

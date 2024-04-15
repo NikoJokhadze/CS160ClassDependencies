@@ -27,3 +27,25 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_prereq.csv' IGNORE -- ignore
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS
     (course_id, prereq_id);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_coreq.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE Coreq
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (course_id, coreq_id);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_precoreq.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE PreCoreq
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (course_id, precoreq_id);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_cross.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE CrossList
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (course_id, cross_id);
+    

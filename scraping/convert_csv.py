@@ -16,7 +16,8 @@ def extract_department(course_name_short):
         return match.group(1).upper()  
     else:
         return "UNKNOWN"  # In case of stupid
-    
+
+
 with open('courses_catid_13.json', 'r', encoding='ascii') as json_file:
     courses = json.load(json_file)
 
@@ -48,7 +49,8 @@ with open(csv_file, 'w', newline='', encoding='ascii',errors='backslashreplace')
             'course_level': course_standing(course['name_short']),
             'course_notes': course['notes'] if course['notes'] else ''
         })
-        
+
+
 # Define CSV file for prerequisites
 prereq_csv_file = 'prereq.csv'
 prereq_fieldnames = ['course_id', 'prereq_id']
@@ -65,4 +67,49 @@ with open(prereq_csv_file, 'w', newline='', encoding='utf-8') as prereq_csvfile:
             prereq_writer.writerow([course_id, prereq_id])
 
 
-print("converted to CSV")
+# Define CSV file for prerequisites
+coreq_csv_file = 'coreq.csv'
+coreq_fieldnames = ['course_id', 'coreq_id']
+
+# Write data to prereq CSV
+with open(coreq_csv_file, 'w', newline='', encoding='utf-8') as coreq_csvfile:
+    coreq_writer = csv.writer(coreq_csvfile)
+    coreq_writer.writerow(coreq_fieldnames)  # Write header row
+    for course in courses:
+        course_id = course['coid']
+        corequisites_referenced = course.get('corequisites_referenced', [])
+        for coreq_ref in corequisites_referenced:
+            coreq_id = coreq_ref.get('coid')
+            coreq_writer.writerow([course_id, coreq_id])
+
+
+# Define CSV file for prerequisites
+cross_csv_file = 'cross.csv'
+cross_fieldnames = ['course_id', 'cross_id']
+
+# Write data to prereq CSV
+with open(cross_csv_file, 'w', newline='', encoding='utf-8') as cross_csvfile:
+    cross_writer = csv.writer(cross_csvfile)
+    cross_writer.writerow(cross_fieldnames)  # Write header row
+    for course in courses:
+        course_id = course['coid']
+        cross_referenced = course.get('crosslist_referenced', [])
+        for prereq_ref in cross_referenced:
+            cross_id = prereq_ref.get('coid')
+            cross_writer.writerow([course_id, cross_id])
+
+
+# Define CSV file for prerequisites
+preco_csv_file = 'precoreq.csv'
+precoreq_fieldnames = ['course_id', 'precoreq_id']
+
+# Write data to prereq CSV
+with open(preco_csv_file, 'w', newline='', encoding='utf-8') as precoreq_csvfile:
+    precoreq_writer = csv.writer(precoreq_csvfile)
+    precoreq_writer.writerow(precoreq_fieldnames)  # Write header row
+    for course in courses:
+        course_id = course['coid']
+        precorequisites_referenced = course.get('pre_co_requisites_referenced', [])
+        for precoreq_ref in precorequisites_referenced:
+            precoreq_id = precoreq_ref.get('coid')
+            precoreq_writer.writerow([course_id, precoreq_id])
