@@ -1,24 +1,22 @@
-create database if not exists ClassDependenciesDatabase;
-use ClassDependenciesDatabase;
 
 -- This is our main and most complex table, containing a huge amount of information for courses
 create table if not exists Course (
     course_id int not null, -- The number identification of the course
     catalogue_id int not null, -- The number identification of the catalogue a course belongs to
-    course_name varchar(999) not null, -- The full name of the course
-    course_name_short varchar(99) not null, -- The shortened name of a course
-    department_name varchar(99) not null, -- The department that the course belongs to
-    course_description TEXT not null, -- A general description of the course
-    units varchar(3) not null, -- The total number of units the course satisfies, can be an int or a range like 1-3
-    grading_type varchar(99) not null, -- The type of grading (i.e. letter grade)
-    grade_requirement varchar(2) not null, -- The minimum required grade to pass
-    prerequisites TEXT not null, -- This line, as well as the following 2 lines, are text descriptions
-    corequisites TEXT not null,
-    pre_co_requisites TEXT not null,
-    misc_lab varchar(999) not null, -- Details if a course has lab hours included
-    GE_area varchar(999) not null default "", -- Note if a course satisfies a certain general education requirement
-    course_level varchar(99) not null, -- Note if a course is an undergrad, grad, or post-grad course
-    course_notes TEXT, -- Note any additional notes for the course
+    course_name varchar(1024) not null, -- The full name of the course
+    course_name_short varchar(128) not null, -- The shortened name of a course
+    department_name varchar(128) not null, -- The department that the course belongs to
+    course_description TEXT not null default (""), -- A general description of the course
+    units varchar(32) not null default "3 units", -- The total number of units the course satisfies, can be an int or a range like 1-3
+    grading_type varchar(128) not null default "letter graded", -- The type of grading (i.e. letter grade)
+    grade_requirement varchar(2) not null default 'C-', -- The minimum required grade to pass
+    prerequisites TEXT not null default (""), -- This line, as well as the following 2 lines, are text descriptions
+    corequisites TEXT not null default (""),
+    pre_co_requisites TEXT not null default (""),
+    misc_lab TEXT not null default (""), -- Details if a course has lab hours included
+    GE_area varchar(256) not null default "", -- Note if a course satisfies a certain general education requirement
+    course_level varchar(32) not null default "Lower", -- Note Lower, Upper, or Graduate division
+    course_notes TEXT not null default (""), -- Note any additional notes for the course
     primary key (course_id)
 );
 
@@ -55,8 +53,11 @@ create table if not exists PreCoreq (
 -- This table lists out any cross-listing a course has with a different department
 create table if not exists CrossListing (
     course_id int not null,
-    cross_listing varchar(99) not null,
-    foreign key (course_id) references Course(course_id)
+    cross_id int not null,
+    -- grade_requirement varchar(2) not null default 'C-',
+    foreign key (course_id) references Course(course_id),
+    foreign key (cross_id) references Course(course_id),
+    unique (course_id, cross_id)
 );
 
 -- This table details some important information for university majors, including department and
