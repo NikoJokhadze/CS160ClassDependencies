@@ -4,6 +4,10 @@ import { Graphviz } from "graphviz-react";
 
 const dotContent = `
     digraph G  {
+    
+        
+        
+        
       fontname="Helvetica,Arial,sans-serif"
         
       node [
@@ -12,7 +16,7 @@ const dotContent = `
             style =filled
         shape =rect
             //color = black
-            fillcolor ="#e0f4e0ff";
+            fillcolor ="#a1f1a1ff";
             ]
       edge[
             fontname = "Helvetica,Arial,sans-serif"
@@ -321,7 +325,7 @@ const dotContent = `
           Math179 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
               <TR><TD> Math179 </TD></TR> 
               <TR><TD> 3 Units </TD></TR>
-              </TABLE>>];	
+              </TABLE>>];
   }  
 `;
 
