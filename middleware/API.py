@@ -15,7 +15,7 @@ db_config = {
     'host': 'database',  # Using the service name from docker-compose
     'user': 'MYSQL_USER',
     'password': 'MYSQL_PASSWORD',
-    'database': 'MYSQL_DATABASE'
+    'database': 'ClassDependenciesDatabase'
 }
 
 @app.route('/hello')
@@ -31,7 +31,7 @@ def database():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM Users")
+        cursor.execute("SELECT * FROM Course LIMIT 50")
         result = cursor.fetchall()
 
         return jsonify(result)
