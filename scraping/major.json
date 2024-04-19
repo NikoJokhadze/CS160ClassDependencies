@@ -1,0 +1,518 @@
+[
+    {
+        "catid_major": 13,
+        "poid": 7663,
+        "program_name": "Computer Science, BS",
+        "program_description": "This degree, offered by the\u00a0Department of Computer Science\u00a0, provides a solid background for a variety of careers in the computing profession. Entry level positions include jobs in programming, systems analysis, software engineering and customer support. Such positions are required by nearly every institution whether it is public or private. The Computer Science Program is accredited by the Computing Accreditation Commission of the Accreditation Board for Engineering and Technology (ABET), 111 Market Place, Suite 1050, Baltimore, MD, 21202-4012, 410.347.7700. The program not only prepares students for graduate work in computer science, but also for advanced work in the related fields of management science and operations research.\n\nProgram Learning Outcomes\u00a0\u00a0\n\nSummary of Degree Units\n\n\n\nUniversity Graduation Requirements\n41\n\n\nMajor Preparation\n27\n\n\nMajor Requirements\n38\n\n\nMajor Electives\n14\n\n\nTotal\n120\n\n\n\nProgram Roadmaps\nThe 4-Year\u00a0Roadmap\u00a0is available online. Roadmaps should be used in consultation with the catalog and your advisor to identify additional requirements for completing the major (for example, course grade minimums). Associate Degrees (ADT) Pathways\u00a0are also available online.\nMajor-Specific Graduation Requirements\nA grade of \u201cC-\u201d or better is required for courses being used to meet any requirement in any minor or major offered by the Department of Computer Science\u00a0, including Major Preparation courses. The Major Preparation and Major Requirements must include at least 37 units of upper division mathematics and computer science course work, excluding CS 100W\u00a0.",
+        "groups": [
+            {
+                "name": "Graduation Writing Assessment Requirement (3 units)",
+                "group_id": 121684,
+                "description": "At SJSU, students must pass both the SJSUWriting Skills Test (WST)and aWriting in the Disciplines (100W) course. Exceptions to the GWAR may be found atGraduation Writing Assessment Requirement (GWAR).A grade of C or better (C- not accepted) is required to meet graduation requirement.",
+                "courses": [
+                    {
+                        "name": "CS 100W - Technical Writing Workshop",
+                        "name_short": "CS 100W",
+                        "catid": "13",
+                        "coid": "119703"
+                    }
+                ]
+            },
+            {
+                "name": "Major Preparation (27 units)",
+                "group_id": 114543,
+                "description": null,
+                "courses": [
+                    {
+                        "name": "MATH 30 - Calculus I",
+                        "name_short": "MATH 30",
+                        "catid": "13",
+                        "coid": "115341"
+                    },
+                    {
+                        "name": "MATH 31 - Calculus II",
+                        "name_short": "MATH 31",
+                        "catid": "13",
+                        "coid": "115352"
+                    },
+                    {
+                        "name": "MATH 42 - Discrete Mathematics",
+                        "name_short": "MATH 42",
+                        "catid": "13",
+                        "coid": "118265"
+                    },
+                    {
+                        "name": "MATH 39 - Linear Algebra I",
+                        "name_short": "MATH 39",
+                        "catid": "13",
+                        "coid": "120126"
+                    },
+                    {
+                        "name": "PHIL 134 - Computers, Ethics and Society",
+                        "name_short": "PHIL 134",
+                        "catid": "13",
+                        "coid": "119548"
+                    }
+                ]
+            },
+            {
+                "name": "Additional Mathematics Course (3 units)",
+                "group_id": 114544,
+                "description": "Complete one course:",
+                "courses": [
+                    {
+                        "name": "MATH 32 - Calculus III",
+                        "name_short": "MATH 32",
+                        "catid": "13",
+                        "coid": "115377"
+                    },
+                    {
+                        "name": "MATH 142 - Introduction to Combinatorics",
+                        "name_short": "MATH 142",
+                        "catid": "13",
+                        "coid": "118291"
+                    },
+                    {
+                        "name": "MATH 161A - Applied Probability and Statistics I",
+                        "name_short": "MATH 161A",
+                        "catid": "13",
+                        "coid": "118294"
+                    }
+                ]
+            },
+            {
+                "name": "Approved Science Electives (8 units)",
+                "group_id": 117250,
+                "description": "Students must complete a total of 8\u00a0units of science electives. At least six of those units must be fulfilled by the courses listed below. The remaining\u00a0units may be satisfied byGE Areas B1, B2, B3.",
+                "courses": [
+                    {
+                        "name": "BIOL 30 - Principles of Biology I",
+                        "name_short": "BIOL 30",
+                        "catid": "13",
+                        "coid": "115260"
+                    },
+                    {
+                        "name": "BIOL 31 - Principles of Biology II",
+                        "name_short": "BIOL 31",
+                        "catid": "13",
+                        "coid": "115263"
+                    },
+                    {
+                        "name": "CHEM 1A - General Chemistry",
+                        "name_short": "CHEM 1A",
+                        "catid": "13",
+                        "coid": "114931"
+                    },
+                    {
+                        "name": "GEOL 1 - General Geology",
+                        "name_short": "GEOL 1",
+                        "catid": "13",
+                        "coid": "114961"
+                    },
+                    {
+                        "name": "GEOL 4L - Earth Systems Lab",
+                        "name_short": "GEOL 4L",
+                        "catid": "13",
+                        "coid": "115270"
+                    },
+                    {
+                        "name": "GEOL 7 - Earth, Time and Life",
+                        "name_short": "GEOL 7",
+                        "catid": "13",
+                        "coid": "114983"
+                    },
+                    {
+                        "name": "METR 10 - Weather and Climate",
+                        "name_short": "METR 10",
+                        "catid": "13",
+                        "coid": "115124"
+                    },
+                    {
+                        "name": "PHYS 50 - General Physics/Mechanics",
+                        "name_short": "PHYS 50",
+                        "catid": "13",
+                        "coid": "115062"
+                    },
+                    {
+                        "name": "PHYS 51 - General Physics/Electricity and Magnetism",
+                        "name_short": "PHYS 51",
+                        "catid": "13",
+                        "coid": "115074"
+                    }
+                ]
+            },
+            {
+                "name": "Lower Division (11 units)",
+                "group_id": 114546,
+                "description": null,
+                "courses": [
+                    {
+                        "name": "CS 46A - Introduction to Programming",
+                        "name_short": "CS 46A",
+                        "catid": "13",
+                        "coid": "116261"
+                    },
+                    {
+                        "name": "CS 46B - Introduction to Data Structures",
+                        "name_short": "CS 46B",
+                        "catid": "13",
+                        "coid": "116262"
+                    },
+                    {
+                        "name": "CS 47 - Introduction to Computer Systems",
+                        "name_short": "CS 47",
+                        "catid": "13",
+                        "coid": "116272"
+                    }
+                ]
+            },
+            {
+                "name": "Upper Division (27 units)",
+                "group_id": 114547,
+                "description": null,
+                "courses": [
+                    {
+                        "name": "CS 146 - Data Structures and Algorithms",
+                        "name_short": "CS 146",
+                        "catid": "13",
+                        "coid": "116273"
+                    },
+                    {
+                        "name": "CS 147 - Computer Architecture",
+                        "name_short": "CS 147",
+                        "catid": "13",
+                        "coid": "116274"
+                    },
+                    {
+                        "name": "CS 149 - Operating Systems",
+                        "name_short": "CS 149",
+                        "catid": "13",
+                        "coid": "116275"
+                    },
+                    {
+                        "name": "CS 151 - Object-Oriented Design",
+                        "name_short": "CS 151",
+                        "catid": "13",
+                        "coid": "116276"
+                    },
+                    {
+                        "name": "CS 152 - Programming Paradigms",
+                        "name_short": "CS 152",
+                        "catid": "13",
+                        "coid": "116277"
+                    },
+                    {
+                        "name": "CS 154 - Formal Languages and Computability",
+                        "name_short": "CS 154",
+                        "catid": "13",
+                        "coid": "116279"
+                    },
+                    {
+                        "name": "CS 157A - Introduction to Database Management Systems",
+                        "name_short": "CS 157A",
+                        "catid": "13",
+                        "coid": "116282"
+                    },
+                    {
+                        "name": "CS 160 - Software Engineering",
+                        "name_short": "CS 160",
+                        "catid": "13",
+                        "coid": "116287"
+                    },
+                    {
+                        "name": "CS 166 - Information Security",
+                        "name_short": "CS 166",
+                        "catid": "13",
+                        "coid": "116315"
+                    }
+                ]
+            },
+            {
+                "name": "Required Major Elective (minimum of one course)",
+                "group_id": 114548,
+                "description": "Complete at leastonemajor elective from the following list of electives:",
+                "courses": [
+                    {
+                        "name": "CS 116A - Introduction to Computer Graphics",
+                        "name_short": "CS 116A",
+                        "catid": "13",
+                        "coid": "116267"
+                    },
+                    {
+                        "name": "CS 116B - Computer Graphics Algorithms",
+                        "name_short": "CS 116B",
+                        "catid": "13",
+                        "coid": "116268"
+                    },
+                    {
+                        "name": "CS 122 - Advanced Programming with Python",
+                        "name_short": "CS 122",
+                        "catid": "13",
+                        "coid": "116317"
+                    },
+                    {
+                        "name": "CS 123A - Bioinformatics I",
+                        "name_short": "CS 123A",
+                        "catid": "13",
+                        "coid": "116269"
+                    },
+                    {
+                        "name": "CS 123B - Bioinformatics II",
+                        "name_short": "CS 123B",
+                        "catid": "13",
+                        "coid": "116270"
+                    },
+                    {
+                        "name": "CS 131 - Processing Big Data - Tools and Techniques",
+                        "name_short": "CS 131",
+                        "catid": "13",
+                        "coid": "122970"
+                    },
+                    {
+                        "name": "CS 133 - Introduction to Data Visualization",
+                        "name_short": "CS 133",
+                        "catid": "13",
+                        "coid": "122971"
+                    },
+                    {
+                        "name": "CS 134 - Computer Game Design and Programming",
+                        "name_short": "CS 134",
+                        "catid": "13",
+                        "coid": "116271"
+                    },
+                    {
+                        "name": "CS 136 - Introduction to Computer Vision",
+                        "name_short": "CS 136",
+                        "catid": "13",
+                        "coid": "120460"
+                    },
+                    {
+                        "name": "CS 144 - Advanced C++ Programming",
+                        "name_short": "CS 144",
+                        "catid": "13",
+                        "coid": "116322"
+                    },
+                    {
+                        "name": "CS 153 - Concepts of Compiler Design",
+                        "name_short": "CS 153",
+                        "catid": "13",
+                        "coid": "116278"
+                    },
+                    {
+                        "name": "CS 155 - Introduction to the Design and Analysis of Algorithms",
+                        "name_short": "CS 155",
+                        "catid": "13",
+                        "coid": "116280"
+                    },
+                    {
+                        "name": "CS 156 - Introduction to Artificial Intelligence",
+                        "name_short": "CS 156",
+                        "catid": "13",
+                        "coid": "116281"
+                    },
+                    {
+                        "name": "CS 157B - Database Management Systems II",
+                        "name_short": "CS 157B",
+                        "catid": "13",
+                        "coid": "116283"
+                    },
+                    {
+                        "name": "CS 157C - NoSQL Database Systems",
+                        "name_short": "CS 157C",
+                        "catid": "13",
+                        "coid": "116331"
+                    },
+                    {
+                        "name": "CS 158A - Computer Networks",
+                        "name_short": "CS 158A",
+                        "catid": "13",
+                        "coid": "116284"
+                    },
+                    {
+                        "name": "CS 158B - Computer Network Management",
+                        "name_short": "CS 158B",
+                        "catid": "13",
+                        "coid": "116285"
+                    },
+                    {
+                        "name": "CS 159 - Introduction to Parallel Processing",
+                        "name_short": "CS 159",
+                        "catid": "13",
+                        "coid": "116286"
+                    },
+                    {
+                        "name": "CS 161 - Software Project",
+                        "name_short": "CS 161",
+                        "catid": "13",
+                        "coid": "116314"
+                    },
+                    {
+                        "name": "CS 168 - Blockchain and Cryptocurrencies",
+                        "name_short": "CS 168",
+                        "catid": "13",
+                        "coid": "120248"
+                    },
+                    {
+                        "name": "CS 171 - Introduction to Machine Learning",
+                        "name_short": "CS 171",
+                        "catid": "13",
+                        "coid": "120417"
+                    },
+                    {
+                        "name": "CS 174 - Server-side Web Programming",
+                        "name_short": "CS 174",
+                        "catid": "13",
+                        "coid": "116288"
+                    },
+                    {
+                        "name": "CS 175 - Mobile Device Development",
+                        "name_short": "CS 175",
+                        "catid": "13",
+                        "coid": "116327"
+                    },
+                    {
+                        "name": "CS 176 - Introduction to Social Network Analysis",
+                        "name_short": "CS 176",
+                        "catid": "13",
+                        "coid": "120333"
+                    }
+                ]
+            },
+            {
+                "name": "Upper Division Electives",
+                "group_id": 117575,
+                "description": null,
+                "courses": [
+                    {
+                        "name": "CS 108 - Introduction to Game Studies",
+                        "name_short": "CS 108",
+                        "catid": "13",
+                        "coid": "116259"
+                    },
+                    {
+                        "name": "CS 136 - Introduction to Computer Vision",
+                        "name_short": "CS 136",
+                        "catid": "13",
+                        "coid": "120460"
+                    },
+                    {
+                        "name": "CS 143C - Numerical Analysis and Scientific Computing",
+                        "name_short": "CS 143C",
+                        "catid": "13",
+                        "coid": "116338"
+                    },
+                    {
+                        "name": "CS 143M - Numerical Analysis and Scientific Computing",
+                        "name_short": "CS 143M",
+                        "catid": "13",
+                        "coid": "116339"
+                    },
+                    {
+                        "name": "CS 180 - Individual Studies",
+                        "name_short": "CS 180",
+                        "catid": "13",
+                        "coid": "116289"
+                    },
+                    {
+                        "name": "CS 185A - Advanced Practical Computing Topics",
+                        "name_short": "CS 185A",
+                        "catid": "13",
+                        "coid": "123010"
+                    },
+                    {
+                        "name": "CS 185C - Advanced Practical Computing Topics",
+                        "name_short": "CS 185C",
+                        "catid": "13",
+                        "coid": "116292"
+                    },
+                    {
+                        "name": "CS 190 - Internship Project",
+                        "name_short": "CS 190",
+                        "catid": "13",
+                        "coid": "116328"
+                    }
+                ]
+            },
+            {
+                "name": "Lower Division Electives",
+                "group_id": 114549,
+                "description": "Students must secure prior department consent to use the following courses to satisfy the major elective requirement.",
+                "courses": [
+                    {
+                        "name": "CS 85A - Practical Computing Topics",
+                        "name_short": "CS 85A",
+                        "catid": "13",
+                        "coid": "123011"
+                    },
+                    {
+                        "name": "CS 85C - Practical Computing Topics",
+                        "name_short": "CS 85C",
+                        "catid": "13",
+                        "coid": "116264"
+                    },
+                    {
+                        "name": "CS 49C - Programming in C",
+                        "name_short": "CS 49C",
+                        "catid": "13",
+                        "coid": "116263"
+                    },
+                    {
+                        "name": "CS 49J - Programming in Java",
+                        "name_short": "CS 49J",
+                        "catid": "13",
+                        "coid": "116319"
+                    }
+                ]
+            },
+            {
+                "name": "Mathematics Electives",
+                "group_id": 114550,
+                "description": null,
+                "courses": [
+                    {
+                        "name": "MATH 142 - Introduction to Combinatorics",
+                        "name_short": "MATH 142",
+                        "catid": "13",
+                        "coid": "118291"
+                    },
+                    {
+                        "name": "MATH 161A - Applied Probability and Statistics I",
+                        "name_short": "MATH 161A",
+                        "catid": "13",
+                        "coid": "118294"
+                    },
+                    {
+                        "name": "MATH 162 - Statistics for Bioinformatics",
+                        "name_short": "MATH 162",
+                        "catid": "13",
+                        "coid": "118296"
+                    },
+                    {
+                        "name": "MATH 177 - Linear and Non-Linear Optimization",
+                        "name_short": "MATH 177",
+                        "catid": "13",
+                        "coid": "118299"
+                    },
+                    {
+                        "name": "MATH 178 - Mathematical Modeling",
+                        "name_short": "MATH 178",
+                        "catid": "13",
+                        "coid": "118300"
+                    },
+                    {
+                        "name": "MATH 179 - Introduction to Graph Theory",
+                        "name_short": "MATH 179",
+                        "catid": "13",
+                        "coid": "118301"
+                    },
+                    {
+                        "name": "MATH 203 - Applied Mathematics, Computation, and Statistics Projects",
+                        "name_short": "MATH 203",
+                        "catid": "13",
+                        "coid": "118306"
+                    }
+                ]
+            }
+        ]
+    }
+]

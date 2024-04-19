@@ -48,4 +48,12 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_cross.csv' IGNORE -- ignore 
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS
     (course_id, cross_id);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_majors.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE Program
+    FIELDS TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (program_id, catalogue_id, program_name, program_description);
     
