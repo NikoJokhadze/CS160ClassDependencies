@@ -94,7 +94,7 @@ create table if not exists PGroup (
     group_id INT NOT NULL,
     min_units INT not null default 0,
     -- The number representing the minimum units needed to satisfy the group
-    min_courses INT not null default 0,
+    min_courses INT not null default 1,
     -- Represents the minimum number of courses needed to satisfy the group
     primary key (group_id)
 );
@@ -132,6 +132,7 @@ create table if not exists Student (
 create table if not exists CoursesTaken (
     student_id int not null,
     course_id int not null,
+    grade varchar(2) not null default 'C-', -- there could also be pass/no pass which would be P / NP
     foreign key (student_id) references Student(student_id),
     foreign key (course_id) references Course(course_id)
 );

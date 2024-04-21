@@ -56,4 +56,25 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_majors.csv' IGNORE -- ignore
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS
     (program_id, catalogue_id, program_name, program_description);
-    
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_groups.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE PGroup
+    FIELDS TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (group_name, group_description, group_id, min_units, min_courses);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_group_courses.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE GroupCourses
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (group_id,course_id,course_mandate);
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/fixed_program_groups.csv' IGNORE -- ignore duplicate keys
+    INTO TABLE ProgramGroups
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 ROWS
+    (program_id,group_id);
