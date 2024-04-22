@@ -14,7 +14,8 @@ services:
     ports:
       - "5001:5000"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   database:
     container_name: database
@@ -25,6 +26,19 @@ services:
       MYSQL_DATABASE: MYSQL_DATABASE
       MYSQL_USER: MYSQL_USER
       MYSQL_PASSWORD: MYSQL_PASSWORD
+    healthcheck:
+      test: 
+        [
+          "CMD", 
+          "healthcheck.sh", 
+          "--su-mysql",
+          "--connect",
+          "--innodb_initialized"
+        ]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
 
   phpmyadmin:
     container_name: phpmyadmin

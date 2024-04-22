@@ -3,7 +3,7 @@
 ## Structure  
 - React Frontend Server with Nodejs (port 42069) 
 - API middleware (port 5001)  
-- Database with MySQL (port 3306 [unsure])
+- Database with MySQL
   - phpmyadmin (port 2000)
 
 ## Run Locally  
@@ -25,7 +25,7 @@ Run Docker (add -d for detached)
 docker compose up
 ~~~
 
-In case restart is needed (code updates)
+In case restart is needed (code updates) (add -d for detached)
 
 ~~~bash  
 docker compose up --force-recreate --build
