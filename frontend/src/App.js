@@ -4,7 +4,6 @@ import './App.css';
 import DAGViewer from "./DAGViewer";
 
 
-
 function App() {
   // Function to handle button click
   const handleClick = () => {
@@ -12,9 +11,118 @@ function App() {
     // Add your desired action here
   };
 
+  const [major, setMajor] = useState('');
+  const [majorText, setMajorText] = useState('');
+
   const [message, setMessage] = useState('');
   const [responseText, setResponseText] = useState('');
+
   const [dag, setDag] = useState(``)
+
+  const suggestedClasses = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/sample');
+      const data = await response.text();
+      setMessage(data);
+      setResponseText(data); // Set response text when API call is returned
+
+      const dagData = `digraph G  {
+        node [
+              fontname="Helvetica,Arial,sans-serif"
+              shape=plaintext
+              style =filled
+          shape =rect
+              //color = black
+              fillcolor ="#a1f1a1ff";
+              ]
+        edge[
+              fontname = "Helvetica,Arial,sans-serif"
+              penwidth = 2 // make the arrow bold
+              ]
+
+          // define the node color meaning
+          rankdir=TB; //layout format
+          // make edges invisible
+          Green -> Yellow -> Grey [style=invis];
+          Green [label=<<TABLE BORDER="0" CELLBORDER="0">
+                <TR><TD><B>Class Taken Already</B></TD></TR>
+             </TABLE>>, shape=plaintext, fontsize=9, fillcolor="#a1f1a1ff",pos="-5,1!"];//pos doesn't work
+
+
+          Yellow [label=<<TABLE BORDER="0" CELLBORDER="0">
+                <TR><TD><B>Class In Progress</B></TD></TR>
+             </TABLE>>, shape=plaintext, fontsize=9, fillcolor="#f3d40eff"];
+          Grey [label=<<TABLE BORDER="0" CELLBORDER="0">
+                <TR><TD><B>Class Not Taken Yet</B></TD></TR>
+             </TABLE>>, shape=plaintext, fontsize=9, fillcolor="grey"];
+
+
+          // define the rank of the classes(nodes)
+          //take off the "layout=neato", with or without rank: both work
+          { rank = same; CS49J; CS46A; }
+          { rank = same; CS46B; Math42}
+          { rank = same; CS47}
+          { rank = same; CS146; CS147; CS154; }
+
+          // define edges and edge colors
+          CS49J -> CS46B [color="#048804ff"]
+          CS46B -> CS146 [color="#048804ff"]
+          CS146 -> CS157A [color="#f3d40eff"]
+          CS157A -> CS157B [color="red"]
+          CS157B -> Math177 [color="#048804ff"]
+
+
+          // define the nodes by rank order
+          /*BORDER="0" removes the border around the entire table.
+          CELLBORDER="1" adds a border around each cell.
+          CELLSPACING="0" removes the spacing between cells.
+          CELLPADDING="4" adds padding inside each cell.
+          TR: table row;
+          TD: tabla data/table cell*/
+
+            CS49J [label="CS49J",shape=plaintext,fontsize=9];
+            CS49J [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+                <TR><TD> CS49J </TD></TR>
+                <TR><TD> 3 Units </TD></TR>
+                </TABLE>>];
+
+
+            CS46B [label="CS46B",shape=plaintext,fontsize=9];
+            CS46B [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+                <TR><TD> CS46B </TD></TR>
+                <TR><TD> 3 Units </TD></TR>
+                </TABLE>>];
+
+            CS146 [label="CS146",shape=plaintext,fontsize=9];
+            CS146 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+                <TR><TD> CS146 </TD></TR>
+                <TR><TD> 3 Units </TD></TR>
+                </TABLE>>];
+
+
+            CS157A [label="CS157A",shape=plaintext,fontsize=9];
+            CS157A [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+                <TR><TD> CS157A </TD></TR>
+                <TR><TD> 3 Units </TD></TR>
+                </TABLE>>, fillcolor="#f3d40eff"];
+            CS157B [label="CS157B",shape=plaintext,fontsize=9];
+            CS157B [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+                <TR><TD> CS157B </TD></TR>
+                <TR><TD> 3 Units </TD></TR>
+                </TABLE>>, style="filled", fillcolor="grey"];
+
+            Math177 [label="Math177",shape=plaintext,fontsize=9];
+            Math177 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+                <TR><TD> Math177 </TD></TR>
+                <TR><TD> 3 Units </TD></TR>
+                </TABLE>>];
+      }`;
+      setDag(dagData);
+    } catch (error) {
+      console.error('Error fetching major graphviz data:', error);
+    }
+  };
+
 
   const majorClassDependenciesGraph = async () => {
     try {
@@ -372,6 +480,10 @@ function App() {
     setResponseText(event.target.value);
   };
 
+  const handleMajorChange = (event) => {
+    setMajorText(event.target.value);
+  };
+
   return (
 
     <div className="App">
@@ -389,18 +501,31 @@ function App() {
         <a href = "lowversion.png" target = "_blank" rel="noopener noreferrer">
         {/*<button className="button">Major Class Dependency Graph</button>*/}
         </a>
-        <button className="button">Suggested Classes</button>
+        {/*<button className="button">Suggested Classes</button>*/}
         {/*<button className="button">Call Middleware API</button>*/}
 
 
-        {/*<button onClick={handleClick}>Home</button>
-        <button onClick={handleClick}>Suggested Classes</button>*/}
-        <button onClick={majorClassDependenciesGraph}>Major Class Dependency Graph</button>
-        <button onClick={callMiddlewareAPI}>Call Middleware API</button>
-        {message && <p>{message}</p>}
-        {/* Display text box with the response */}
-        {responseText && (
+        {/*<button onClick={handleClick}>Home</button>*/}
+        <button onClick={suggestedClasses}>Suggested Classes</button>
+        {major && (
           <div>
+            <p>{major}</p>
+            <textarea
+              rows={4}
+              cols={50}
+              value={majorText}
+              onChange={handleMajorChange}
+              readOnly
+            />
+          </div>
+        )}
+
+        <button onClick={majorClassDependenciesGraph}>Major Class Dependency Graph</button>
+
+        <button onClick={callMiddlewareAPI}>Call Middleware API</button>
+        {message && (
+          <div>
+            <p>{message}</p>
             <textarea
               rows={4}
               cols={50}
@@ -410,6 +535,7 @@ function App() {
             />
           </div>
         )}
+
         <a
           className="App-link"
           href="https://reactjs.org"
