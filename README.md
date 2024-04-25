@@ -1,7 +1,7 @@
 # CS160ClassDependencies
 
 ## Structure  
-- React Frontend Server with Nodejs (port 42069) 
+- React Frontend Server with Nodejs (port 5002) 
 - API middleware (port 5001)  
 - Database with MySQL
   - phpmyadmin (port 2000)
@@ -10,13 +10,13 @@
 Clone the project  
 
 ~~~bash  
-  git clone https://github.com/NikoJokhadze/CS160ClassDependencies.git
+git clone https://github.com/NikoJokhadze/CS160ClassDependencies.git
 ~~~
 
 Go to the project directory  
 
 ~~~bash  
-  cd CS160ClassDependencies
+cd CS160ClassDependencies
 ~~~
 
 Run Docker (add -d for detached)

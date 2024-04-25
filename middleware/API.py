@@ -28,6 +28,21 @@ def hello():
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return jsonify({'message': 'Hello from ' + current_time + ''})
 
+@app.route('/major')
+def major():
+    major_id = 7663
+    query = f"""SELECT DISTINCT * 
+                        FROM Course AS C
+                            INNER JOIN GroupCourses as GC
+                            ON GC.course_id = C.course_id
+                            INNER JOIN ProgramGroups as PG
+                            ON GC.group_id = PG.group_id AND PG.program_id = %s
+                   """
+    cursor.execute(query,(major_id,))
+    result = cursor.fetchall()
+
+    return jsonify(result)
+
 @app.route('/database')
 def database():
     cursor.execute("SELECT * FROM Course LIMIT 50")
