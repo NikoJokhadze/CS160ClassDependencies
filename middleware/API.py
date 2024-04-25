@@ -1,8 +1,10 @@
 # middleware_api.py
-from flask import Flask, jsonify # type: ignore
+from flask import Flask, jsonify  # type: ignore
 from flask_cors import CORS  # type: ignore # Import CORS from flask_cors module
 from datetime import datetime
-import mysql.connector # type: ignore
+import mysql.connector  # type: ignore
+import graphviz
+
 # import atexit # TODO
 # atexit.register(exit_method_name)
 
@@ -22,6 +24,7 @@ db_config = {
     'password': 'MYSQL_PASSWORD',
     'database': 'ClassDependenciesDatabase'
 }
+
 
 @app.route('/hello')
 def hello():
@@ -43,13 +46,46 @@ def major():
 
     return jsonify(result)
 
+
 @app.route('/database')
 def database():
     cursor.execute("SELECT * FROM Course where course_name_short LIKE 'CS%' LIMIT 5")
     result = cursor.fetchall()
 
     return jsonify({'message': result})
-    
+
+
+@app.route('/sample')
+def sample():
+    cursor.execute("SELECT course_name_short, units FROM Course where course_name_short LIKE 'CS%' LIMIT 5")
+    results = cursor.fetchall()
+    data = [list(row) for row in results]
+    dot = "digraph G {\n"
+
+    # Graph info for the Nodes and Edges
+    fontname = "Helvetica,Arial,sans-serif"
+    style = "filled"
+    shape = "rect"
+    fillcolor = "#a1f1a1ff"
+    penwidth = 5
+
+    dot += f'node [fontname = "{fontname}" style = "{style}" shape = "{shape}" fillcolor = "{fillcolor}"];\n'
+    dot += f'edge [penwidth = "{penwidth}"];\n'
+
+    # Iterate over each row in the data to create nodes
+    for i in range(len(data)):
+        node_label = ", ".join(data[i])
+        dot += f'"{node_label}" [label="{node_label}"];\n'
+
+        if i < len(data) - 1:
+            next_node_label = ", ".join(data[i + 1])
+            dot += f'"{node_label}" -> "{next_node_label}";\n'
+
+    dot += "}"
+
+    return dot
+
+
 if __name__ == '__main__':
     try:
         # Connect to the database
@@ -59,4 +95,3 @@ if __name__ == '__main__':
         app.run(debug=True, host='0.0.0.0')
     except Exception as e:
         print(e)
-    
