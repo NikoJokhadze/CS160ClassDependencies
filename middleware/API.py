@@ -45,10 +45,10 @@ def major():
 
 @app.route('/database')
 def database():
-    cursor.execute("SELECT * FROM Course LIMIT 50")
+    cursor.execute("SELECT * FROM Course where course_name_short LIKE 'CS%' LIMIT 5")
     result = cursor.fetchall()
 
-    return jsonify(result)
+    return jsonify({'message': result})
     
 if __name__ == '__main__':
     try:
