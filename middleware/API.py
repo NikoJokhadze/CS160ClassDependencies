@@ -1,5 +1,5 @@
 # middleware_api.py
-from flask import Flask, jsonify  # type: ignore
+from flask import Flask, jsonify 
 from flask_cors import CORS  # type: ignore # Import CORS from flask_cors module
 from datetime import datetime
 import mysql.connector  # type: ignore
@@ -25,26 +25,42 @@ db_config = {
     'database': 'ClassDependenciesDatabase'
 }
 
+def fetch_major_courses(major_id):
+    query1 = f"""SELECT 
+                    DISTINCT C.* 
+                FROM 
+                    Course AS C
+                INNER JOIN GroupCourses as GC
+                    ON GC.course_id = C.course_id
+                INNER JOIN ProgramGroups as PG
+                    ON GC.group_id = PG.group_id AND PG.program_id = %s
+                   """ 
+    query2 = f"""SELECT DISTINCT
+                        CR.*
+                    FROM
+                        CourseRelations AS CR
+                    INNER JOIN GroupCourses AS GC
+                        ON CR.course_id = GC.course_id -- OR CR.relation_id = GC.course_id
+                    INNER JOIN ProgramGroups AS PG
+                        ON GC.group_id = PG.group_id AND PG.program_id = %s;
+                   """
+                   # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
+    cursor.execute(query1,(major_id,))
+    courses = cursor.fetchall()
+    cursor.execute(query2,(major_id,))
+    relations = cursor.fetchall()
+    
+    return (courses,relations)
 
 @app.route('/hello')
 def hello():
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return jsonify({'message': 'Hello from ' + current_time + ''})
 
-@app.route('/major')
-def major():
-    major_id = 7663
-    query = f"""SELECT DISTINCT * 
-                        FROM Course AS C
-                            INNER JOIN GroupCourses as GC
-                            ON GC.course_id = C.course_id
-                            INNER JOIN ProgramGroups as PG
-                            ON GC.group_id = PG.group_id AND PG.program_id = %s
-                   """
-    cursor.execute(query,(major_id,))
-    result = cursor.fetchall()
-
-    return jsonify(result)
+@app.get('/major/<int:major_id>')
+def major(major_id):
+    courses,relations = fetch_major_courses(major_id)
+    return jsonify(courses)
 
 
 @app.route('/database')
@@ -90,7 +106,7 @@ if __name__ == '__main__':
     try:
         # Connect to the database
         conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
+        cursor = conn.cursor() # maybe dict
 
         app.run(debug=True, host='0.0.0.0')
     except Exception as e:
