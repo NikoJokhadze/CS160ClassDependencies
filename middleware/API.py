@@ -3,7 +3,7 @@ from flask import Flask, jsonify  # type: ignore
 from flask_cors import CORS  # type: ignore # Import CORS from flask_cors module
 from datetime import datetime
 import mysql.connector  # type: ignore
-import graphviz
+import graphviz # type: ignore
 
 # import atexit # TODO
 # atexit.register(exit_method_name)

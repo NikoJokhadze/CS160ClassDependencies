@@ -113,3 +113,39 @@ with open(preco_csv_file, 'w', newline='', encoding='utf-8') as precoreq_csvfile
         for precoreq_ref in precorequisites_referenced:
             precoreq_id = precoreq_ref.get('coid')
             precoreq_writer.writerow([course_id, precoreq_id])
+            
+
+# Define CSV file for relations
+relations_csv_file = 'relations.csv'
+relations_fieldnames = ['course_id', 'relation_id','relation_type','grade_requirement']
+
+# Write data to relations
+with open(relations_csv_file, 'w', newline='', encoding='utf-8') as relations_csvfile:
+    relations_writer = csv.writer(relations_csvfile)
+    relations_writer.writerow(relations_fieldnames)
+    
+    for course in courses:
+        course_id = course['coid']
+        
+        precorequisites_referenced = course.get('pre_co_requisites_referenced', [])
+        for precoreq_ref in precorequisites_referenced:
+            precoreq_id = precoreq_ref.get('coid')
+            relations_writer.writerow([course_id, precoreq_id, "preco", "C-"])
+            
+        cross_referenced = course.get('crosslist_referenced', [])
+        for prereq_ref in cross_referenced:
+            cross_id = prereq_ref.get('coid')
+            relations_writer.writerow([course_id, cross_id, "cross", None])
+            
+        corequisites_referenced = course.get('corequisites_referenced', [])
+        for coreq_ref in corequisites_referenced:
+            coreq_id = coreq_ref.get('coid')
+            relations_writer.writerow([course_id, coreq_id, "co", "C-"])
+            
+        prerequisites_referenced = course.get('prerequisites_referenced', [])
+        for prereq_ref in prerequisites_referenced:
+            prereq_id = prereq_ref.get('coid')
+            relations_writer.writerow([course_id, prereq_id, "pre", "C-"])
+            
+        
+    

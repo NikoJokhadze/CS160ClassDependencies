@@ -33,44 +33,14 @@ create table if not exists Course (
     primary key (course_id)
 );
 
--- This table acts as a list of prerequisites that a course would require
-create table if not exists Prereq (
+create table if not exists CourseRelations(
     course_id int not null,
-    prereq_id int not null,
-    grade_requirement varchar(2) not null default 'C-',
+    relation_id int not null,
+    relation_type VARCHAR(16) NOT NULL DEFAULT 'pre',
+    grade_requirement varchar(2) default 'C-',
     foreign key (course_id) references Course(course_id),
-    foreign key (prereq_id) references Course(course_id),
-    unique (course_id, prereq_id)
-);
-
--- This table acts as a list of corequisites that a course would require
-create table if not exists Coreq (
-    course_id int not null,
-    coreq_id int not null,
-    grade_requirement varchar(2) not null default 'C-',
-    foreign key (course_id) references Course(course_id),
-    foreign key (coreq_id) references Course(course_id),
-    unique (course_id, coreq_id)
-);
-
--- This is a special case table that lists if classes list other classes as both pre and coreqs
-create table if not exists PreCoreq (
-    course_id int not null,
-    precoreq_id int not null,
-    grade_requirement varchar(2) not null default 'C-',
-    foreign key (course_id) references Course(course_id),
-    foreign key (precoreq_id) references Course(course_id),
-    unique (course_id, precoreq_id)
-);
-
--- This table lists out any cross-listing a course has with a different department
-create table if not exists CrossList (
-    course_id int not null,
-    cross_id int not null,
-    -- grade_requirement varchar(2) not null default 'C-',
-    foreign key (course_id) references Course(course_id),
-    foreign key (cross_id) references Course(course_id),
-    unique (course_id, cross_id)
+    foreign key (relation_id) references Course(course_id),
+    unique (course_id, relation_id)
 );
 
 -- This table details some important information for university majors, including department and
