@@ -91,7 +91,17 @@ def sample():
     # Iterate over each row in the data to create nodes
     for i in range(len(data)):
         node_label = ", ".join(data[i])
-        dot += f'"{node_label}" [label="{node_label}"];\n'
+        """
+        data[i] looks like:
+        ["CS 108","3 unit(s)"]
+        """
+
+        dot += f"""
+        "{data[i][0]}, {data[i][1]}" [label="{data[i][0]}",shape=plaintext,fontsize=16];
+        "{data[i][0]}, {data[i][1]}" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD> {data[i][0]} </TD></TR>
+        <TR><TD> {data[i][1]} </TD></TR>
+        </TABLE>>];"""
 
         if i < len(data) - 1:
             next_node_label = ", ".join(data[i + 1])
