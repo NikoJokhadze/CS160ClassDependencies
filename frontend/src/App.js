@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 //import logo from './logo.svg';
 import './App.css';
+import Navbar from "./Navbar";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import MajorGraph from "./pages/MajorGraph";
+import PersonalGraph from "./pages/PersonalGraph";
 import DAGViewer from "./DAGViewer";
+import { Route, Routes } from "react-router-dom";
+
 
 
 function App() {
@@ -390,15 +397,22 @@ function App() {
   const handleMajorChange = (event) => {
     setMajorText(event.target.value);
   };
-
+ 
+  
   return (
-
+  
     <div className="App">
-
+      <Navbar></Navbar>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/about" element={<About />}/>
+        <Route path="/majorGraph" element={<MajorGraph />}/>
+        <Route path="/personalGraph" element={<PersonalGraph />}/>
+      </Routes>
       <header className="App-header">
         {/*<img src={logo} className="App-logo" alt="logo" />*/}
         {/*<p>Edit <code>src/App.js</code> and save to reload.</p>*/}
-        <h1>MajorView</h1>
+        {/*<h1>MajorView</h1>*/}
 
         <button className="button">Home</button>
         {/*link "Major Class Dependency Graph" button to a PNG file*/}
