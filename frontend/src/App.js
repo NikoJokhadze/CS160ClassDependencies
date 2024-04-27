@@ -457,14 +457,6 @@ function App() {
           </div>
         )}
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         <textarea value={dag} onChange={(e) => setDag(e.target.value)}></textarea>
       <DAGViewer dot={dag} height="100vh" />
       </header>
