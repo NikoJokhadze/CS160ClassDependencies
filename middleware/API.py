@@ -106,7 +106,7 @@ def hello():
 def major(major_id):
     courses,course_columns,relations,relations_columns = fetch_major_courses(major_id)
     
-    return Response(generate_major_graph(major_id,courses,course_columns,relations,relations_columns), mimetype="text/plain") if len(courses) > 0 else abort(404)
+    return Response(generate_major_graph(major_id,courses,course_columns,relations,relations_columns), mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found",status=404,mimetype="text/plain")
 
 
 @app.route('/database')
