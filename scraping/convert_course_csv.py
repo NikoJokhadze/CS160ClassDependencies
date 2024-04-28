@@ -3,7 +3,7 @@ import csv
 import re
 
 def course_standing(course_name_short):
-    if re.match(r'^[A-Za-z]+\s[1-9][0-9]{2}$', course_name_short):
+    if re.match(r'^[A-Za-z]+\s[1-9][0-9]{2}[A-Za-z]?$', course_name_short):
         return "Upper"
     elif re.match(r'^[A-Za-z]+\s[2-9][0-9]{2}[A-Za-z]?$', course_name_short):
         return "Graduate"

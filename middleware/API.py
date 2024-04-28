@@ -1,9 +1,10 @@
 # middleware_api.py
-from flask import Flask, jsonify 
+from flask import Flask, jsonify, abort, Response
 from flask_cors import CORS  # type: ignore # Import CORS from flask_cors module
 from datetime import datetime
 import mysql.connector  # type: ignore
 import graphviz # type: ignore
+import textwrap
 
 # import atexit # TODO
 # atexit.register(exit_method_name)
@@ -47,20 +48,65 @@ def fetch_major_courses(major_id):
                    # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
     cursor.execute(query1,(major_id,))
     courses = cursor.fetchall()
+    course_columns = [column[0] for column in cursor.description]
+    
     cursor.execute(query2,(major_id,))
     relations = cursor.fetchall()
+    relations_columns = [column[0] for column in cursor.description]
     
-    return (courses,relations)
+    return (courses,course_columns,relations,relations_columns)
+
+
+def generate_major_graph(major_id, courses, course_columns,relations,relations_columns):
+    coid_i = course_columns.index("course_id")
+    unique_course_ids = {course[coid_i] for course in courses}
+    
+    g = graphviz.Digraph(f'Major_{major_id}')
+    
+    #TODO different verbosity levels
+    # HTML template for the node
+    html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
+
+    for course in courses:
+        rows_html = ""
+        for column_name in course_columns:
+            column_index = course_columns.index(column_name)
+            column_value = course[column_index]
+            
+            if (type(column_value) == str):
+                wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,break_long_words=False, break_on_hyphens=True,)
+                wrapped_column_value_with_br = "<br/>".join(wrapped_column_value.splitlines())
+                
+                rows_html += f'<TR><TD>{column_name}</TD><TD>{wrapped_column_value_with_br}</TD></TR>'
+            else:
+                rows_html += f'<TR><TD>{column_name}</TD><TD>{column_value}</TD></TR>'
+        
+        g.node(f"course_{course[coid_i]}", label=html_template.format(rows=rows_html).strip().replace("\n","\\n"), shape='plaintext')
+    
+    coid_id = relations_columns.index("course_id")
+    r_id = relations_columns.index("relation_id")
+    rtype_id = relations_columns.index("relation_type")
+    greq_id = relations_columns.index("grade_requirement")
+    for relation in relations:
+        # if they are in the major and not some random unrelated courses
+        if relation[coid_id] in unique_course_ids and relation[r_id] in unique_course_ids:
+            # TODO add handling of different types of relationships (rtype_id)
+            g.edge(f"course_{relation[r_id]}", f"course_{relation[coid_id]}")
+
+    return str(g)
+
 
 @app.route('/hello')
 def hello():
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return jsonify({'message': 'Hello from ' + current_time + ''})
 
+
 @app.get('/major/<int:major_id>')
 def major(major_id):
-    courses,relations = fetch_major_courses(major_id)
-    return jsonify(courses)
+    courses,course_columns,relations,relations_columns = fetch_major_courses(major_id)
+    
+    return generate_major_graph(major_id,courses,course_columns,relations,relations_columns) if len(courses) > 0 else abort(404)
 
 
 @app.route('/database')
