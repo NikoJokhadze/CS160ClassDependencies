@@ -88,6 +88,23 @@ def sample():
     dot += f'node [fontname = "{fontname}" style = "{style}" shape = "{shape}" fillcolor = "{fillcolor}"];\n'
     dot += f'edge [penwidth = "{penwidth}"];\n'
 
+    dot += f'''
+        // define the node color meaning
+        rankdir=TB; //layout formatç
+        // make edges invisible
+        Green -> Yellow -> Grey [style=invis];
+        Green [label=<<TABLE BORDER="0" CELLBORDER="0">
+            <TR><TD><B>Class Taken Already</B></TD></TR>
+            </TABLE>>, shape=plaintext, fontsize=9, fillcolor="#a1f1a1ff",pos="-5,1!"];//pos doesn't work
+        Yellow [label=<<TABLE BORDER="0" CELLBORDER="0">
+            <TR><TD><B>Class In Progress</B></TD></TR>
+            </TABLE>>, shape=plaintext, fontsize=9, fillcolor="#f3d40eff"];
+        Grey [label=<<TABLE BORDER="0" CELLBORDER="0">
+            <TR><TD><B>Class Not Taken Yet</B></TD></TR>
+            </TABLE>>, shape=plaintext, fontsize=9, fillcolor="grey"];
+
+    '''
+
     # Iterate over each row in the data to create nodes
     for i in range(len(data)):
         node_label = ", ".join(data[i])
