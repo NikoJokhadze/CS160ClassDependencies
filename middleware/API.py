@@ -5,6 +5,7 @@ from datetime import datetime
 import mysql.connector  # type: ignore
 import graphviz # type: ignore
 import textwrap
+import html 
 
 # import atexit # TODO
 # atexit.register(exit_method_name)
@@ -74,8 +75,9 @@ def generate_major_graph(major_id, courses, course_columns,relations,relations_c
             column_value = course[column_index]
             
             if (type(column_value) == str):
-                wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,break_long_words=False, break_on_hyphens=True,)
-                wrapped_column_value_with_br = "<br/>".join(wrapped_column_value.splitlines())
+                wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,break_long_words=False, break_on_hyphens=True)
+                res = [html.escape(el) for el in wrapped_column_value.splitlines()]
+                wrapped_column_value_with_br = "<br/>".join(res)
                 
                 rows_html += f'<TR><TD>{column_name}</TD><TD>{wrapped_column_value_with_br}</TD></TR>'
             else:
