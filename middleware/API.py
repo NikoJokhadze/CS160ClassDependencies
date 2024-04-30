@@ -121,7 +121,14 @@ def database():
 
 @app.route('/sample')
 def sample():
-    cursor.execute("SELECT course_name_short, units, prerequisites FROM Course WHERE course_name_short LIKE 'CS%' LIMIT 5")
+    cursor.execute("""
+                   SELECT 
+                        course_name_short, units, prerequisites 
+                   FROM 
+                        Course 
+                   WHERE 
+                        course_name_short LIKE 'CS%' LIMIT 5
+                   """)
     results = cursor.fetchall()
     data = [list(row) for row in results]
     dot = "digraph G {\n"
