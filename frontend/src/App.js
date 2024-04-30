@@ -414,7 +414,7 @@ function App() {
         {/*<p>Edit <code>src/App.js</code> and save to reload.</p>*/}
         {/*<h1>MajorView</h1>*/}
 
-        <button className="button">Home</button>
+        {/*<button className="button">Home</button>*/}
         {/*link "Major Class Dependency Graph" button to a PNG file*/}
         {/*target="_blank" Attribute: Adding target="_blank":the link opens in a new tab.*/}
         {/*rel="noopener noreferrer" Attribute: Adding rel="noopener noreferrer" :
