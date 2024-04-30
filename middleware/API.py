@@ -113,7 +113,7 @@ def major(major_id):
 
 @app.route('/database')
 def database():
-    cursor.execute("SELECT * FROM Course where course_name_short LIKE 'CS%' LIMIT 5")
+    cursor.execute("SELECT * FROM Course WHERE course_name_short LIKE 'CS%' LIMIT 5")
     result = cursor.fetchall()
 
     return jsonify({'message': result})
@@ -121,7 +121,7 @@ def database():
 
 @app.route('/sample')
 def sample():
-    cursor.execute("SELECT course_name_short, units FROM Course where course_name_short LIKE 'CS%' LIMIT 5")
+    cursor.execute("SELECT course_name_short, units, prerequisites FROM Course WHERE course_name_short LIKE 'CS%' LIMIT 5")
     results = cursor.fetchall()
     data = [list(row) for row in results]
     dot = "digraph G {\n"
@@ -155,7 +155,8 @@ def sample():
 
     # Iterate over each row in the data to create nodes
     for i in range(len(data)):
-        node_label = ", ".join(data[i])
+        node_label = ", ".join(data[i][:2])
+        
         """
         data[i] looks like:
         ["CS 108","3 unit(s)"]
@@ -169,7 +170,7 @@ def sample():
         </TABLE>>];"""
 
         if i < len(data) - 1:
-            next_node_label = ", ".join(data[i + 1])
+            next_node_label = ", ".join(data[i + 1][:2])
             dot += f'"{node_label}" -> "{next_node_label}";\n'
 
     dot += "}"
