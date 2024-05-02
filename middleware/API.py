@@ -48,13 +48,14 @@ def fetch_major_courses_low(major_id):
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
     # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
-    cursor.execute(query1, (major_id,))
-    courses = cursor.fetchall()
-    course_columns = [column[0] for column in cursor.description]
+    with conn.cursor() as cursor:
+        cursor.execute(query1, (major_id,))
+        courses = cursor.fetchall()
+        course_columns = [column[0] for column in cursor.description]
 
-    cursor.execute(query2, (major_id,))
-    relations = cursor.fetchall()
-    relations_columns = [column[0] for column in cursor.description]
+        cursor.execute(query2, (major_id,))
+        relations = cursor.fetchall()
+        relations_columns = [column[0] for column in cursor.description]
 
     return (courses, course_columns, relations, relations_columns)
 
@@ -79,15 +80,17 @@ def fetch_major_courses_medium(major_id):
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
     # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
-    cursor.execute(query1, (major_id,))
-    courses = cursor.fetchall()
-    course_columns = [column[0] for column in cursor.description]
+    with conn.cursor() as cursor:
+        cursor.execute(query1, (major_id,))
+        courses = cursor.fetchall()
+        course_columns = [column[0] for column in cursor.description]
 
-    cursor.execute(query2, (major_id,))
-    relations = cursor.fetchall()
-    relations_columns = [column[0] for column in cursor.description]
+        cursor.execute(query2, (major_id,))
+        relations = cursor.fetchall()
+        relations_columns = [column[0] for column in cursor.description]
 
     return (courses, course_columns, relations, relations_columns)
+    
 
 
 def fetch_major_courses_maximum(major_id):
@@ -110,14 +113,14 @@ def fetch_major_courses_maximum(major_id):
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
                    # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
-    cursor.execute(query1,(major_id,))
-    courses = cursor.fetchall()
-    course_columns = [column[0] for column in cursor.description]
-    
-    cursor.execute(query2,(major_id,))
-    relations = cursor.fetchall()
-    relations_columns = [column[0] for column in cursor.description]
-    
+    with conn.cursor() as cursor:
+        cursor.execute(query1,(major_id,))
+        courses = cursor.fetchall()
+        course_columns = [column[0] for column in cursor.description]
+        
+        cursor.execute(query2,(major_id,))
+        relations = cursor.fetchall()
+        relations_columns = [column[0] for column in cursor.description]
     return (courses,course_columns,relations,relations_columns)
 
 

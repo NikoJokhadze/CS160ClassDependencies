@@ -1,6 +1,7 @@
 version: '3'
 services:
   frontend:
+    restart: always
     build: 
       context: ./frontend
       target: release  # Target the release stage of the Dockerfile
@@ -11,6 +12,7 @@ services:
 
   middleware:
     build: ./middleware
+    restart: always
     ports:
       - "5001:5000"
     depends_on:
