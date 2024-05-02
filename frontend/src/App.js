@@ -12,32 +12,27 @@ import { Route, Routes } from "react-router-dom";
 
 
 function App() {
-  // Function to handle button click
+  // Function to handle button click, can add functionality if desired
   const handleClick = () => {
     console.log('Button clicked!');
-    // Add your desired action here
   };
 
+  // List of various useState variables
   const [major, setMajor] = useState('');
   const [majorText, setMajorText] = useState('');
-
   const [message, setMessage] = useState('');
   const [responseText, setResponseText] = useState('');
-
   const [dag, setDag] = useState(``)
+  const [showAdditionalButtons, setShowAdditionalButtons] = useState(false);
 
-  const suggestedClasses = async () => {
+  // Functions for button functionality
+   const suggestedClasses = async () => {
     try {
-      const response = await fetch('http://localhost:5001/sample');
-      const data = await response.text();
-
-      const dagData = data;
-      setDag(dagData);
+      setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
     } catch (error) {
-      console.error('Error fetching major graphviz data:', error);
+      console.error('Error displaying buttons:', error);
     }
   };
-
 
   const majorClassDependenciesGraph = async () => {
     try {
@@ -381,12 +376,52 @@ function App() {
 
   const callMiddlewareAPI = async () => {
     try {
-      const response = await fetch('http://localhost:5001/database');
-      const data = await response.json();
-      setMessage(data.message);
-      setResponseText(data.message); // Set response text when API call is returned
+      const response = await fetch('http://localhost:5001/sample');
+      const data = await response.text();
+
+      const dagData = data;
+      setDag(dagData);
     } catch (error) {
-      console.error('Error fetching middleware API:', error);
+      console.error('Error fetching major graphviz data:', error);
+    }
+  };
+
+  const handleLowDetailClick = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/major/lowdetail/7663');
+      const data = await response.text();
+
+      const dagData = data;
+      setDag(dagData);
+      setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
+    } catch (error) {
+      console.error('Error fetching major graphviz data:', error);
+    }
+  };
+
+  const handleMediumDetailClick = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/major/mediumdetail/7663');
+      const data = await response.text();
+
+      const dagData = data;
+      setDag(dagData);
+      setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
+    } catch (error) {
+      console.error('Error fetching major graphviz data:', error);
+    }
+  };
+
+  const handleMaximumDetailClick = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/major/maximumdetail/7663');
+      const data = await response.text();
+
+      const dagData = data;
+      setDag(dagData);
+      setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
+    } catch (error) {
+      console.error('Error fetching major graphviz data:', error);
     }
   };
 
@@ -428,6 +463,15 @@ function App() {
 
         {/*<button onClick={handleClick}>Home</button>*/}
         <button onClick={suggestedClasses}>Suggested Classes</button>
+        {/* Conditionally render additional buttons */}
+        {showAdditionalButtons && (
+          <div>
+            <button onClick={handleLowDetailClick}>Low Detail</button>
+            <button onClick={handleMediumDetailClick}>Medium Detail</button>
+            <button onClick={handleMaximumDetailClick}>Maximum Detail</button>
+          </div>
+        )}
+
         {major && (
           <div>
             <p>{major}</p>
