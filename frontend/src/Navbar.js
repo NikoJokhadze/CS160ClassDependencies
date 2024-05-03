@@ -1,6 +1,8 @@
 import React from 'react'
+//import React, { useState } from 'react';
 
 function Navbar() {
+    
     return (
     <div className='navbar'>
         <div className='navbar-siteTitle'>MajorView</div>
