@@ -2,8 +2,8 @@
 *{
   margin: 0;
   padding: 0;
-  /*box-sizing: border-box;*/
-  /*background-image: url(/public/graphviz.png);*/
+  background-color: #282c34;
+  color: white;
 }
 
 /*format for navbar*/
@@ -17,7 +17,10 @@
   padding: 0 1rem;
   margin-bottom: 10px;
 }
-
+.content {
+  padding-top: 20px; /* Adjust the value as needed */
+  background-color: #f0f0f0; /* Example color for content background */
+}
 .navbar-siteTitle {
   color: white;
   font-size: 40px;

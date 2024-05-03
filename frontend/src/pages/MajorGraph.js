@@ -4,8 +4,6 @@
 import React, { useState } from 'react';
 //import logo from './logo.svg';
 import '../App.css';
-import Navbar from "../Navbar";
-
 import DAGViewer from "../DAGViewer";
 import { Route, Routes } from "react-router-dom";
 

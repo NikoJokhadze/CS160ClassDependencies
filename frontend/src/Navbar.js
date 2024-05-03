@@ -12,6 +12,8 @@ function Navbar() {
             <li><a href = "/majorGraph">MajorGraph</a></li>
             <li><a href = "/personalGraph">PersonalGraph</a></li>
         </ul>
+       
+
     </div>
     )
 }
