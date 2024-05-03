@@ -388,7 +388,7 @@ function App() {
 
   const handleLowDetailClick = async () => {
     try {
-      const response = await fetch('http://localhost:5001/major/lowdetail/7663');
+      const response = await fetch('http://localhost:5001/major/7663?detaillevel=low');
       const data = await response.text();
 
       const dagData = data;
@@ -401,7 +401,7 @@ function App() {
 
   const handleMediumDetailClick = async () => {
     try {
-      const response = await fetch('http://localhost:5001/major/mediumdetail/7663');
+      const response = await fetch('http://localhost:5001/major/7663?detaillevel=medium');
       const data = await response.text();
 
       const dagData = data;
@@ -414,7 +414,7 @@ function App() {
 
   const handleMaximumDetailClick = async () => {
     try {
-      const response = await fetch('http://localhost:5001/major/maximumdetail/7663');
+      const response = await fetch('http://localhost:5001/major/7663?detaillevel=high');
       const data = await response.text();
 
       const dagData = data;

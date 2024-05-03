@@ -1,11 +1,11 @@
 # middleware_api.py
-from flask import Flask, jsonify, abort, Response
+from flask import Flask, jsonify, abort, Response, request
 from flask_cors import CORS  # type: ignore # Import CORS from flask_cors module
 from datetime import datetime
 import mysql.connector  # type: ignore
-import graphviz # type: ignore
+import graphviz  # type: ignore
 import textwrap
-import html 
+import html
 
 # import atexit # TODO
 # atexit.register(exit_method_name)
@@ -90,10 +90,9 @@ def fetch_major_courses_medium(major_id):
         relations_columns = [column[0] for column in cursor.description]
 
     return (courses, course_columns, relations, relations_columns)
-    
 
 
-def fetch_major_courses_maximum(major_id):
+def fetch_major_courses_high(major_id):
     query1 = f"""SELECT 
                     DISTINCT C.* 
                 FROM 
@@ -102,7 +101,7 @@ def fetch_major_courses_maximum(major_id):
                     ON GC.course_id = C.course_id
                 INNER JOIN ProgramGroups as PG
                     ON GC.group_id = PG.group_id AND PG.program_id = %s
-                   """ 
+                   """
     query2 = f"""SELECT DISTINCT
                         CR.*
                     FROM
@@ -112,24 +111,24 @@ def fetch_major_courses_maximum(major_id):
                     INNER JOIN ProgramGroups AS PG
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
-                   # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
+    # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
     with conn.cursor() as cursor:
-        cursor.execute(query1,(major_id,))
+        cursor.execute(query1, (major_id,))
         courses = cursor.fetchall()
         course_columns = [column[0] for column in cursor.description]
-        
-        cursor.execute(query2,(major_id,))
+
+        cursor.execute(query2, (major_id,))
         relations = cursor.fetchall()
         relations_columns = [column[0] for column in cursor.description]
-    return (courses,course_columns,relations,relations_columns)
+    return (courses, course_columns, relations, relations_columns)
 
 
-def generate_major_graph(major_id, courses, course_columns,relations,relations_columns):
+def generate_major_graph(major_id, courses, course_columns, relations, relations_columns):
     coid_i = course_columns.index("course_id")
     unique_course_ids = {course[coid_i] for course in courses}
-    
+
     g = graphviz.Digraph(f'Major_{major_id}')
-    
+
     # Check for different verbosity levels
     # HTML template for the node
     html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
@@ -139,9 +138,10 @@ def generate_major_graph(major_id, courses, course_columns,relations,relations_c
         for column_name in course_columns:
             column_index = course_columns.index(column_name)
             column_value = course[column_index]
-            
+
             if (type(column_value) == str):
-                wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,break_long_words=False, break_on_hyphens=True)
+                wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
+                                                     break_long_words=False, break_on_hyphens=True)
                 res = [html.escape(el) for el in wrapped_column_value.splitlines()]
                 wrapped_column_value_with_br = "<br/>".join(res)
 
@@ -152,9 +152,10 @@ def generate_major_graph(major_id, courses, course_columns,relations,relations_c
             else:
                 rows_html += f'<TR><TD>{column_value}</TD></TR>'
                 # rows_html += f'<TR><TD>{column_name}</TD><TD>{column_value}</TD></TR>'
-        
-        g.node(f"course_{course[coid_i]}", label=html_template.format(rows=rows_html).strip().replace("\n","\\n"), shape='plaintext')
-    
+
+        g.node(f"course_{course[coid_i]}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
+               shape='plaintext')
+
     coid_id = relations_columns.index("course_id")
     r_id = relations_columns.index("relation_id")
     rtype_id = relations_columns.index("relation_type")
@@ -173,26 +174,19 @@ def hello():
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return jsonify({'message': 'Hello from ' + current_time + ''})
 
+@app.route('/major/<int:major_id>')
+def major(major_id):
+    detail_level = request.args.get('detaillevel', default='low')
 
-@app.get('/major/lowdetail/<int:major_id>')
-def major_low(major_id):
-    courses,course_columns,relations,relations_columns = fetch_major_courses_low(major_id)
-    
-    return Response(generate_major_graph(major_id,courses,course_columns,relations,relations_columns), mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found",status=404,mimetype="text/plain")
-
-
-@app.get('/major/mediumdetail/<int:major_id>')
-def major_medium(major_id):
-    courses, course_columns, relations, relations_columns = fetch_major_courses_medium(major_id)
-
-    return Response(generate_major_graph(major_id, courses, course_columns, relations, relations_columns),
-                    mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
-                                                                             mimetype="text/plain")
-
-
-@app.get('/major/maximumdetail/<int:major_id>')
-def major_maximum(major_id):
-    courses, course_columns, relations, relations_columns = fetch_major_courses_maximum(major_id)
+    if detail_level == 'low':
+        courses, course_columns, relations, relations_columns = fetch_major_courses_low(major_id)
+    elif detail_level == 'medium':
+        courses, course_columns, relations, relations_columns = fetch_major_courses_medium(major_id)
+    elif detail_level == 'high':
+        courses, course_columns, relations, relations_columns = fetch_major_courses_high(major_id)
+    else:
+        # Handle invalid detail level here (e.g., return an error response)
+        return Response("Invalid detail level", status=400, mimetype="text/plain")
 
     return Response(generate_major_graph(major_id, courses, course_columns, relations, relations_columns),
                     mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
@@ -251,7 +245,7 @@ def sample():
     # Iterate over each row in the data to create nodes
     for i in range(len(data)):
         node_label = ", ".join(data[i][:2])
-        
+
         """
         data[i] looks like:
         ["CS 108","3 unit(s)"]
@@ -277,7 +271,7 @@ if __name__ == '__main__':
     try:
         # Connect to the database
         conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor() # maybe dict
+        cursor = conn.cursor()  # maybe dict
 
         app.run(debug=True, host='0.0.0.0')
     except Exception as e:
