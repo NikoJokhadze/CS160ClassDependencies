@@ -1,0 +1,33 @@
+
+const majorClassDependenciesGraph = async () => {
+
+};
+
+const callMiddlewareAPI = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/sample');
+      const data = await response.text();
+
+      const dagData = data;
+      setDag(dagData);
+    } catch (error) {
+      console.error('Error fetching major graphviz data:', error);
+    }
+  };
+
+<button onClick={callMiddlewareAPI}>Call Middleware API</button>
+{message && (
+  <div>
+    <p>{message}</p>
+    <textarea
+      rows={4}
+      cols={50}
+      value={responseText}
+      onChange={handleResponseChange}
+      readOnly
+    />
+  </div>
+)}
+
+<textarea value={dag} onChange={(e) => setDag(e.target.value)}></textarea>
+<button onClick={majorClassDependenciesGraph}>Major Class Dependency Graph</button>
