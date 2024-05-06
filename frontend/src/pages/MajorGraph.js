@@ -1,13 +1,6 @@
-//import React from 'react'
-
-
 import React, { useState } from 'react';
-//import logo from './logo.svg';
 import '../App.css';
 import DAGViewer from "../DAGViewer";
-import { Route, Routes } from "react-router-dom";
-
-
 
 function MajorGraph() {
   // Function to handle button click, can add functionality if desired
@@ -31,8 +24,6 @@ function MajorGraph() {
       console.error('Error displaying buttons:', error);
     }
   };
-
-
   
   const handleLowDetailClick = async () => {
     try {
@@ -86,9 +77,6 @@ function MajorGraph() {
   
     <div className="MG">
       <header className="App-header">
-        
-        <a href = "lowversion.png" target = "_blank" rel="noopener noreferrer"></a>
-       
 
         <button onClick={suggestedClasses}>Suggested Classes</button>
         {/* Conditionally render additional buttons */}
@@ -127,14 +115,12 @@ function MajorGraph() {
           </div>
         )}
 
-        <textarea value={dag} onChange={(e) => setDag(e.target.value)}></textarea>
+        {/*<textarea value={dag} onChange={(e) => setDag(e.target.value)}></textarea>*/}
       <DAGViewer dot={dag} height="100vh" />
       </header>
     </div>
   );
-
 }
-
 
 export default MajorGraph
 

@@ -1,21 +1,21 @@
 import React from 'react'
-//import React, { useState } from 'react';
+import './App.css';
+//import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 
-function Navbar() {
+const Navbar = () => {
     
     return (
-    <div className='navbar'>
-        <div className='navbar-siteTitle'>MajorView</div>
-        <ul className='navbar-menu'>
-            <li><a href = "/">Home</a></li>
-            <li><a href = "/about">About</a></li>
-            <li><a href = "/majorGraph">MajorGraph</a></li>
-            <li><a href = "/personalGraph">PersonalGraph</a></li>
+    <nav className ='navbar'>
+        <div className ='navbar-siteTitle'>MajorView</div>
+        <ul className ='navbar-menu'>
+            <li className="navbar-item"><a href="/">Home</a></li>
+            <li className="navbar-item"><a href="/about">About</a></li>
+            <li className="navbar-item"><a href="/majorGraph">MajorGraph</a></li>
+            <li className="navbar-item"><a href="/personalGraph">personalGraph</a></li>
         </ul>
-       
-
-    </div>
+    </nav>
     )
 }
+
 
 export default Navbar

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
 import Navbar from "./Navbar";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import MajorGraph from "./pages/MajorGraph";
-import PersonalGraph from "./pages/PersonalGraph";
+import Home from './pages/Home';
+import About from './pages/About';
+import MajorGraph from './pages/MajorGraph';
+import PersonalGraph from './pages/PersonalGraph';
 import DAGViewer from "./DAGViewer";
 import { Route, Routes } from "react-router-dom";
 
