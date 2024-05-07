@@ -22,6 +22,7 @@ function App() {
   const [message, setMessage] = useState('');
   const [responseText, setResponseText] = useState('');
   const [dag, setDag] = useState(``)
+  const [dag2, setDag2] = useState(``)
   const [showAdditionalButtons, setShowAdditionalButtons] = useState(false);
 
   // Functions for button functionality
@@ -35,11 +36,17 @@ function App() {
 
   const handleLowDetailClick = async () => {
     try {
-      const response = await fetch('http://localhost:5001/major/7663?detaillevel=low');
+      const response = await fetch('http://localhost:5001/major/7663?detaillevel=low&relations=all');
       const data = await response.text();
 
       const dagData = data;
       setDag(dagData);
+
+      const response2 = await fetch('http://localhost:5001/major/7663?detaillevel=low&relations=none');
+      const datas = await response2.text();
+
+      const dagData2 = datas;
+      setDag2(dagData2);
       setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
     } catch (error) {
       console.error('Error fetching major graphviz data:', error);
@@ -48,11 +55,17 @@ function App() {
 
   const handleMediumDetailClick = async () => {
     try {
-      const response = await fetch('http://localhost:5001/major/7663?detaillevel=medium');
+      const response = await fetch('http://localhost:5001/major/7663?detaillevel=medium&relations=all');
       const data = await response.text();
 
       const dagData = data;
       setDag(dagData);
+
+      const response2 = await fetch('http://localhost:5001/major/7663?detaillevel=medium&relations=none');
+      const datas = await response2.text();
+
+      const dagData2 = datas;
+      setDag2(dagData2);
       setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
     } catch (error) {
       console.error('Error fetching major graphviz data:', error);
@@ -61,11 +74,17 @@ function App() {
 
   const handleMaximumDetailClick = async () => {
     try {
-      const response = await fetch('http://localhost:5001/major/7663?detaillevel=high');
+      const response = await fetch('http://localhost:5001/major/7663?detaillevel=high&relations=all');
       const data = await response.text();
 
       const dagData = data;
       setDag(dagData);
+
+      const response2 = await fetch('http://localhost:5001/major/7663?detaillevel=high&relations=none');
+      const datas = await response2.text();
+
+      const dagData2 = datas;
+      setDag2(dagData2);
       setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
     } catch (error) {
       console.error('Error fetching major graphviz data:', error);
@@ -116,6 +135,7 @@ function App() {
           </div>
         )}
       <DAGViewer dot={dag} height="100vh" />
+      <DAGViewer dot={dag2} height="100vh" />
       </header>
     </div>
   );
