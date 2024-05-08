@@ -171,6 +171,8 @@ def fetch_major_courses_high(major_id):
 
 def generate_major_graph(major_id, courses, course_columns, relations, relations_columns, relations_type):
     g = graphviz.Digraph(f'Major_{major_id}')
+    g.attr(ranksep='1.75')  # Controls space between rows of nodes
+    g.attr(splines='ortho')
 
     html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
 
