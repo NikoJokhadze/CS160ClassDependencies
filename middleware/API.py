@@ -57,7 +57,7 @@ def fetch_major_courses_low(major_id):
         relations = cursor.fetchall()
         relations_columns = [column[0] for column in cursor.description]
 
-    return (courses, course_columns, relations, relations_columns)
+    return courses, course_columns, relations, relations_columns
 
 
 def fetch_major_courses_medium(major_id):
@@ -89,7 +89,7 @@ def fetch_major_courses_medium(major_id):
         relations = cursor.fetchall()
         relations_columns = [column[0] for column in cursor.description]
 
-    return (courses, course_columns, relations, relations_columns)
+    return courses, course_columns, relations, relations_columns
 
 
 def fetch_major_courses_high(major_id):
@@ -121,52 +121,6 @@ def fetch_major_courses_high(major_id):
         relations = cursor.fetchall()
         relations_columns = [column[0] for column in cursor.description]
     return courses, course_columns, relations, relations_columns
-
-
-'''def generate_major_graph(major_id, courses, course_columns, relations, relations_columns):
-    coid_i = course_columns.index("course_id")
-    unique_course_ids = {course[coid_i] for course in courses}
-
-    g = graphviz.Digraph(f'Major_{major_id}')
-
-    # Check for different verbosity levels
-    # HTML template for the node
-    html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
-
-    for course in courses:
-        rows_html = ""
-        for column_name in course_columns:
-            column_index = course_columns.index(column_name)
-            column_value = course[column_index]
-
-            if (type(column_value) == str):
-                wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
-                                                     break_long_words=False, break_on_hyphens=True)
-                res = [html.escape(el) for el in wrapped_column_value.splitlines()]
-                wrapped_column_value_with_br = "<br/>".join(res)
-
-                # commented out rows_html lines are for cells that show both data and names of each part of data
-                # If kept without names, remove empty spaces in each cell
-                rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
-                # rows_html += f'<TR><TD>{column_name}</TD><TD>{wrapped_column_value_with_br}</TD></TR>'
-            else:
-                rows_html += f'<TR><TD>{column_value}</TD></TR>'
-                # rows_html += f'<TR><TD>{column_name}</TD><TD>{column_value}</TD></TR>'
-
-        g.node(f"course_{course[coid_i]}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-               shape='plaintext')
-
-    coid_id = relations_columns.index("course_id")
-    r_id = relations_columns.index("relation_id")
-    rtype_id = relations_columns.index("relation_type")
-    greq_id = relations_columns.index("grade_requirement")
-    for relation in relations:
-        # if they are in the major and not some random unrelated courses
-        if relation[coid_id] in unique_course_ids and relation[r_id] in unique_course_ids:
-            # TODO add handling of different types of relationships (rtype_id)
-            g.edge(f"course_{relation[r_id]}", f"course_{relation[coid_id]}")
-
-    return str(g)'''
 
 
 def generate_major_graph(major_id, courses, course_columns, relations, relations_columns, relations_type):
@@ -206,12 +160,15 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                     else:
                         rows_html += f'<TR><TD>{column_value}</TD></TR>'
 
-                g.node(f"course_{course_id}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
+                g.node(f"course_{course_id}",
+                       label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
                        shape='plaintext')
 
         for relation in relations:
-            if relation[relations_columns.index("course_id")] in courses_with_relations and relation[relations_columns.index("relation_id")] in courses_with_relations:
-                g.edge(f"course_{relation[relations_columns.index('relation_id')]}", f"course_{relation[relations_columns.index('course_id')]}")
+            if (relation[relations_columns.index("course_id")] in courses_with_relations and
+                    relation[relations_columns.index("relation_id")] in courses_with_relations):
+                g.edge(f"course_{relation[relations_columns.index('relation_id')]}",
+                       f"course_{relation[relations_columns.index('course_id')]}")
 
     elif relations_type == 'none':
         for course in courses:
@@ -228,7 +185,8 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                     else:
                         rows_html += f'<TR><TD>{column_value}</TD></TR>'
 
-                g.node(f"course_{course[0]}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
+                g.node(f"course_{course[0]}",
+                       label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
                        shape='plaintext')
 
     return str(g)
@@ -254,8 +212,6 @@ def major(major_id):
         generate_major_graph(major_id, courses, course_columns, relations, relations_columns, relations_type),
         mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
                                                                  mimetype="text/plain")
-
-
 
 
 if __name__ == '__main__':
