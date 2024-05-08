@@ -169,7 +169,7 @@ def fetch_major_courses_high(major_id):
     return str(g)'''
 
 
-def generate_major_graph_with_relations(major_id, courses, course_columns, relations, relations_columns):
+def generate_major_graph(major_id, courses, course_columns, relations, relations_columns, relations_type):
     g = graphviz.Digraph(f'Major_{major_id}')
 
     html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
@@ -187,59 +187,47 @@ def generate_major_graph_with_relations(major_id, courses, course_columns, relat
     # Filter out the unnecessary course IDs
     courses_with_relations = courses_with_relations.intersection(actual_course_ids)
 
-    for course_id in courses_with_relations:
-        course = next((course for course in courses if course[0] == course_id), None)
-        if course:
-            rows_html = ""
-            for column_name, column_value in zip(course_columns, course):
-                if isinstance(column_value, str):
-                    wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
-                                                         break_long_words=False, break_on_hyphens=True)
-                    res = [html.escape(el) for el in wrapped_column_value.splitlines()]
-                    wrapped_column_value_with_br = "<br/>".join(res)
+    if relations_type == 'all':
+        for course_id in courses_with_relations:
+            course = next((course for course in courses if course[0] == course_id), None)
 
-                    rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
-                else:
-                    rows_html += f'<TR><TD>{column_value}</TD></TR>'
+            if course:
+                rows_html = ""
+                for column_name, column_value in zip(course_columns, course):
+                    if isinstance(column_value, str):
+                        wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
+                                                             break_long_words=False, break_on_hyphens=True)
+                        res = [html.escape(el) for el in wrapped_column_value.splitlines()]
+                        wrapped_column_value_with_br = "<br/>".join(res)
 
-            g.node(f"course_{course_id}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-                   shape='plaintext')
+                        rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
+                    else:
+                        rows_html += f'<TR><TD>{column_value}</TD></TR>'
 
-    for relation in relations:
-        if relation[relations_columns.index("course_id")] in courses_with_relations and relation[relations_columns.index("relation_id")] in courses_with_relations:
-            g.edge(f"course_{relation[relations_columns.index('relation_id')]}", f"course_{relation[relations_columns.index('course_id')]}")
+                g.node(f"course_{course_id}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
+                       shape='plaintext')
 
-    return str(g)
+        for relation in relations:
+            if relation[relations_columns.index("course_id")] in courses_with_relations and relation[relations_columns.index("relation_id")] in courses_with_relations:
+                g.edge(f"course_{relation[relations_columns.index('relation_id')]}", f"course_{relation[relations_columns.index('course_id')]}")
 
+    elif relations_type == 'none':
+        for course in courses:
+            if course[0] not in courses_with_relations:
+                rows_html = ""
+                for column_name, column_value in zip(course_columns, course):
+                    if isinstance(column_value, str):
+                        wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
+                                                             break_long_words=False, break_on_hyphens=True)
+                        res = [html.escape(el) for el in wrapped_column_value.splitlines()]
+                        wrapped_column_value_with_br = "<br/>".join(res)
 
-def generate_major_graph_without_relations(major_id, courses, course_columns, relations, relations_columns):
-    g = graphviz.Digraph(f'Major_{major_id}_No_Relations')
+                        rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
+                    else:
+                        rows_html += f'<TR><TD>{column_value}</TD></TR>'
 
-    html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
-
-    # Set to store course IDs that have relations
-    courses_with_relations = set()
-
-    for relation in relations:
-        courses_with_relations.add(relation[relations_columns.index("course_id")])
-        courses_with_relations.add(relation[relations_columns.index("relation_id")])
-
-    for course in courses:
-        if course[0] not in courses_with_relations:
-            rows_html = ""
-            for column_name, column_value in zip(course_columns, course):
-                if isinstance(column_value, str):
-                    wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
-                                                         break_long_words=False, break_on_hyphens=True)
-                    res = [html.escape(el) for el in wrapped_column_value.splitlines()]
-                    wrapped_column_value_with_br = "<br/>".join(res)
-
-                    rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
-                else:
-                    rows_html += f'<TR><TD>{column_value}</TD></TR>'
-
-            g.node(f"course_{course[0]}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-                   shape='plaintext')
+                g.node(f"course_{course[0]}", label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
+                       shape='plaintext')
 
     return str(g)
 
@@ -260,18 +248,10 @@ def major(major_id):
 
     relations_type = request.args.get('relations', default='all')
 
-    if relations_type == 'all':
-        return Response(
-            generate_major_graph_with_relations(major_id, courses, course_columns, relations, relations_columns),
-            mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
-                                                                     mimetype="text/plain")
-    elif relations_type == 'none':
-        return Response(
-            generate_major_graph_without_relations(major_id, courses, course_columns, relations, relations_columns),
-            mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
-                                                                     mimetype="text/plain")
-    else:
-        return Response("Invalid relation type", status=400, mimetype="text/plain")
+    return Response(
+        generate_major_graph(major_id, courses, course_columns, relations, relations_columns, relations_type),
+        mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
+                                                                 mimetype="text/plain")
 
 
 
