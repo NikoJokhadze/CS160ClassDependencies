@@ -33,11 +33,17 @@ create table if not exists Course (
     primary key (course_id)
 );
 
+-- This table handles the relations between select courses, which covers things like prerequisites, cross-listings, etc.
 create table if not exists CourseRelations(
     course_id int not null,
+    -- Same number identification from Course
     relation_id int not null,
+    -- The number identification of the course that is related to the initial course
     relation_type VARCHAR(16) NOT NULL DEFAULT 'pre',
+    -- The type of relation that the relation_id course has with the course_id course (i.e. pre for prerequisite, co
+    -- for corequisite, preco for pre/corequisite, and cross for cross-listed)
     grade_requirement varchar(2) default 'C-',
+    -- The minimum grade needed to consider the course passed (i.e. C, C-, etc.)
     foreign key (course_id) references Course(course_id),
     foreign key (relation_id) references Course(course_id),
     unique (course_id, relation_id)
@@ -49,10 +55,13 @@ create table if not exists Program (
     -- department_name varchar(99) not null, -- The name of the department
     -- PROGRAM CAN BELONG TO MULTIPLE COURSES I.E. GENED THAT IS AT THE TOP OF EVERY MAJOR
     program_id INT NOT NULL,
+    -- The identification number for a degree program (i.e. 7663 for Computer Science)
     catalogue_id int not null,
+    -- The number identification of the catalogue a course belongs to
     program_name varchar(128) not null,
     -- The name of the major
     program_description TEXT NOT NULL DEFAULT (""),
+    -- A general description of the major, future prospects for students that hold the degree, etc.
     primary key (program_id)
 );
 
@@ -61,7 +70,9 @@ create table if not exists PGroup (
     group_name varchar(128) not null,
     -- Groups include subsections of a major, such as "Approved Science Electives (8 units)" or "Upper Division (27 units)"
     group_description TEXT not null default (""),
+    -- A description of the group of courses, its learning outcomes, etc.
     group_id INT NOT NULL,
+    -- The identification number of the group
     min_units INT not null default 0,
     -- The number representing the minimum units needed to satisfy the group
     min_courses INT not null default 1,
@@ -69,30 +80,38 @@ create table if not exists PGroup (
     primary key (group_id)
 );
 
--- This table lists out courses that belongs to a particular major group
+-- This table lists out courses that belong to a particular major group
 create table if not exists GroupCourses (
     group_id INT NOT NULL,
+    -- The same identification number from PGroup
     course_id int not null,
+    -- The same identification number from Course
     course_mandate boolean not null default 0,
-    -- Note if a course is mandatory or not, based on either GE or major core class specifications
+    -- Notes if a course is mandatory or not, based on either GE or major core class specifications
     foreign key (group_id) references PGroup(group_id),
     foreign key (course_id) references Course(course_id)
 );
 
+-- This table shows which groups belong to which major by ID
 create table if not exists ProgramGroups (
     program_id INT NOT NULL,
+    -- The same identification number from Program
     group_id INT NOT NULL,
+    -- The same identification number from PGroup and GroupCourses
     foreign key (group_id) references PGroup(group_id),
     foreign key (program_id) references Program(program_id),
     UNIQUE (program_id, group_id)
 );
 
--- The student table will only contain basic info for students, and will mainly focus on the
+-- This table stores basic info for students, and will mainly focus on the
 -- relationship between students and their selected classes
 create table if not exists Student (
     student_id int not null,
+    -- The unique identification number for a student
     student_name varchar(128) not null default "",
+    -- The full of the student
     program_id int not null,
+    -- The ID of the program that the student is enrolled in
     primary key (student_id),
     foreign key (program_id) references Program(program_id)
 );
@@ -101,8 +120,12 @@ create table if not exists Student (
 -- to derive from this list to calculate the remaining classes a student needs
 create table if not exists CoursesTaken (
     student_id int not null,
+    -- The same identification number from Student
     course_id int not null,
-    grade varchar(2) not null default 'C-', -- there could also be pass/no pass which would be P / NP
+    -- The same identification number from Course
+    grade varchar(2) not null default 'C-',
+    -- The letter grade that the student has received for a taken course.
+    -- There could also be pass/no pass grades, which would be P / NP
     foreign key (student_id) references Student(student_id),
     foreign key (course_id) references Course(course_id)
 );
