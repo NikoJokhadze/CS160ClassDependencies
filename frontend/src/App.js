@@ -112,7 +112,7 @@ function App() {
       </Routes>
 
       <header className="App-header">
-        <button onClick={suggestedClasses}>Suggested Classes</button>
+        <button onClick={suggestedClasses}>Major Classes Dependency Graph</button>
         {/* Conditionally render additional buttons */}
         {showAdditionalButtons && (
           <div>
