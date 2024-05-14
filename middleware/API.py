@@ -1,4 +1,3 @@
-# middleware_api.py
 from flask import Flask, jsonify, abort, Response, request
 from flask_cors import CORS  # type: ignore # Import CORS from flask_cors module
 from datetime import datetime
@@ -47,7 +46,7 @@ def fetch_major_courses_low(major_id):
                     INNER JOIN ProgramGroups AS PG
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
-    # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
+    # the or statement is excessive since it will get a bunch of irrelevant prereqs most likely
     with conn.cursor() as cursor:
         cursor.execute(query1, (major_id,))
         courses = cursor.fetchall()
@@ -79,7 +78,7 @@ def fetch_major_courses_medium(major_id):
                     INNER JOIN ProgramGroups AS PG
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
-    # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
+    # the or statement is excessive since it will get a bunch of irrelevant prereqs most likely
     with conn.cursor() as cursor:
         cursor.execute(query1, (major_id,))
         courses = cursor.fetchall()
@@ -111,7 +110,7 @@ def fetch_major_courses_high(major_id):
                     INNER JOIN ProgramGroups AS PG
                         ON GC.group_id = PG.group_id AND PG.program_id = %s;
                    """
-    # the or statement is excessive since it will get a bunch of irrelivant prereqs most likely
+    # the or statement is excessive since it will get a bunch of irrelevant prereqs most likely
     with conn.cursor() as cursor:
         cursor.execute(query1, (major_id,))
         courses = cursor.fetchall()
@@ -162,13 +161,15 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
 
                 g.node(f"course_{course_id}",
                        label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-                       shape='plaintext')
+                       shape='plaintext',
+                       color='black')  # Set node color
 
         for relation in relations:
             if (relation[relations_columns.index("course_id")] in courses_with_relations and
                     relation[relations_columns.index("relation_id")] in courses_with_relations):
                 g.edge(f"course_{relation[relations_columns.index('relation_id')]}",
-                       f"course_{relation[relations_columns.index('course_id')]}")
+                       f"course_{relation[relations_columns.index('course_id')]}",
+                       color='black')  # Set arrow color
 
     elif relations_type == 'none':
         for course in courses:
@@ -187,7 +188,8 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
 
                 g.node(f"course_{course[0]}",
                        label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-                       shape='plaintext')
+                       shape='plaintext',
+                       color='black')  # Set node color
 
     return str(g)
 
