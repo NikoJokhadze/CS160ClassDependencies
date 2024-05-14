@@ -159,7 +159,7 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                     else:
                         rows_html += f'<TR><TD>{column_value}</TD></TR>'
 
-                node_color = 'green' if course_id < 116300 else 'black'
+                node_color = 'green' if course_id < 116300 or course_id in [116319, 119703, 118265] else 'black'
                 g.node(f"course_{course_id}",
                        label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
                        shape='plaintext',
