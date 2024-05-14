@@ -158,9 +158,14 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                         rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
                     else:
                         rows_html += f'<TR><TD>{column_value}</TD></TR>'
+                
+               
+                node_color = ('orange' if course_id in [116331, 116280, 116416] else
+                ('yellow' if course_id in [116287, 116315, 118300, 116322] else
+                ('green' if course_id < 116287 or course_id in [116319, 119703, 118265] else
+                'grey')))
 
-                node_color = 'green' if course_id < 116287 or course_id in [116319, 119703, 118265] else 'black'
-                node_color = 'yellow' if course_id in [116287, 116315, 118300, 116322] else 'grey'
+                
                 g.node(f"course_{course_id}",
                        label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
                        shape='plaintext',
