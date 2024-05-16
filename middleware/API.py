@@ -247,6 +247,86 @@ def major(major_id):
         mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
                                                                  mimetype="text/plain")     
 
+
+def generate_major_graph_transcipt(major_id, courses, course_columns, relations, relations_columns, student_course_ids):
+    g = graphviz.Digraph(f'Major_{major_id}')
+    g.attr(ranksep='1.75')  # Controls space between rows of nodes
+    g.attr(splines='ortho')
+
+    html_template = """<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">{rows}</TABLE>>"""
+
+    # Set to store course IDs that have relations
+    courses_with_relations = set()
+
+    for relation in relations:
+        courses_with_relations.add(relation[relations_columns.index("course_id")])
+        courses_with_relations.add(relation[relations_columns.index("relation_id")])
+
+    # Set to store actual course IDs
+    actual_course_ids = {course[0] for course in courses}
+
+    # Filter out the unnecessary course IDs
+    courses_with_relations = courses_with_relations.intersection(actual_course_ids)
+
+    course_colors = {}
+    
+    # assume prereqs met
+    non_student_courses = actual_course_ids - set(student_course_ids)
+    non_student_dict = {student_id: True for student_id in non_student_courses}
+    
+    
+    for course_id in courses_with_relations:
+        course = next((course for course in courses if course[0] == course_id), None)
+
+        if course:
+            rows_html = ""
+            for column_name, column_value in zip(course_columns, course):
+                if isinstance(column_value, str):
+                    wrapped_column_value = textwrap.fill(column_value, width=70, replace_whitespace=True,
+                                                            break_long_words=False, break_on_hyphens=True)
+                    res = [html.escape(el) for el in wrapped_column_value.splitlines()]
+                    wrapped_column_value_with_br = "<br/>".join(res)
+
+                    rows_html += f'<TR><TD>{wrapped_column_value_with_br}</TD></TR>'
+                else:
+                    rows_html += f'<TR><TD>{column_value}</TD></TR>'
+                    
+            node_color = 'black'
+            
+            g.node(f"course_{course_id}",
+                    label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
+                    shape='plaintext',
+                    color=node_color)  # Set node color conditionally
+
+    for relation in relations:
+        if (relation[relations_columns.index("course_id")] in courses_with_relations and
+                relation[relations_columns.index("relation_id")] in courses_with_relations):
+            source_id = relation[relations_columns.index('relation_id')]
+            target_id = relation[relations_columns.index('course_id')]
+            
+            edge_color = 'green'
+            
+            # prereqs not met
+            if source_id not in set(student_course_ids) and target_id not in set(student_course_ids):
+                edge_color = 'red'
+                non_student_dict[target_id] = False
+            
+            g.edge(f"course_{source_id}",
+                    f"course_{target_id}",
+                    color=edge_color)  # Set arrow color
+    for course_id in actual_course_ids:
+        if course_id in student_course_ids:
+            g.node(name=f"course_{course_id}", color = 'black')
+        elif non_student_dict[course_id]:
+            g.node(name=f"course_{course_id}", color = 'green')
+        else:
+            g.node(name=f"course_{course_id}", color = 'red')
+    
+    
+    print(non_student_dict,flush=True)
+    return str(g)
+
+
 # TODO currently this only takes the unofficial transcript with ONLY courses, 
 # and not any other fluff, this needs to be fixed.
 # Also it does not check for grade satisfaction currently
@@ -310,8 +390,10 @@ def major_progress(major_id):
     #     print(course_code, flush=True)
     student_course_ids = find_course_ids_from_short_names(parsed_data)
     #print(student_course_ids, flush=True)
+    
+    result = generate_major_graph_transcipt(major_id,courses, course_columns, relations, relations_columns,student_course_ids)
 
-    return  Response('File uploaded and parsed successfully', status = 200, mimetype="text/plain")
+    return  Response(result, status = 200, mimetype="text/plain")
 
 
 if __name__ == '__main__':
