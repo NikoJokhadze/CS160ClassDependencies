@@ -24,6 +24,8 @@ function App() {
   const [dag, setDag] = useState(``)
   const [dag2, setDag2] = useState(``)
   const [showAdditionalButtons, setShowAdditionalButtons] = useState(false);
+  const [file, setFile] = useState(null);
+  
 
   // Functions for button functionality
    const suggestedClasses = async () => {
@@ -31,6 +33,29 @@ function App() {
       setShowAdditionalButtons(true); // Show additional detail buttons after fetching suggested classes
     } catch (error) {
       console.error('Error displaying buttons:', error);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleFileUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch('http://localhost:5001/major/progress/7663', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.text();
+      // Assuming data returned from the API is in the format of graphviz data
+      setDag(data);
+      setShowAdditionalButtons(true);
+    } catch (error) {
+      console.error('Error uploading file:', error);
     }
   };
 
@@ -134,6 +159,9 @@ function App() {
             />
           </div>
         )}
+
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleFileUpload}>Upload File</button> 
       <DAGViewer dot={dag} height="100vh" />
       <DAGViewer dot={dag2} height="100vh" />
       </header>

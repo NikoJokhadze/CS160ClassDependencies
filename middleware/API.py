@@ -323,7 +323,7 @@ def generate_major_graph_transcipt(major_id, courses, course_columns, relations,
             g.node(name=f"course_{course_id}", color = 'red')
     
     
-    print(non_student_dict,flush=True)
+    #print(non_student_dict,flush=True)
     return str(g)
 
 
