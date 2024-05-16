@@ -142,7 +142,6 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
     # Filter out the unnecessary course IDs
     courses_with_relations = courses_with_relations.intersection(actual_course_ids)
 
-    course_colors = {}
     
     if relations_type == 'all':
         for course_id in courses_with_relations:
@@ -161,17 +160,9 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                     else:
                         rows_html += f'<TR><TD>{column_value}</TD></TR>'
                 
-                node_color = ('red' if course_id in [116331, 116280, 116416] else
-                              'yellow' if course_id in [116287, 116315, 118300, 116322] else
-                              'green' if course_id < 116287 or course_id in [116319, 119703, 118265] else
-                              'grey')
-
-                course_colors[course_id] = node_color
-                
                 g.node(f"course_{course_id}",
                        label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-                       shape='plaintext',
-                       color=node_color)  # Set node color conditionally
+                       shape='plaintext')  # Set node color conditionally
 
         for relation in relations:
             if (relation[relations_columns.index("course_id")] in courses_with_relations and
@@ -179,23 +170,7 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                 source_id = relation[relations_columns.index('relation_id')]
                 target_id = relation[relations_columns.index('course_id')]
                 
-                source_color = course_colors.get(source_id, 'black')
-                target_color = course_colors.get(target_id, 'black')
-                
-                if source_color == 'green' and target_color == 'green':
-                    edge_color = 'green'
-                elif (source_color in ['green', 'black'] and target_color == 'yellow') or \
-                     (source_color == 'yellow' and target_color in ['green', 'black']):
-                    edge_color = 'yellow'
-                elif (source_color in ['green', 'black'] and target_color == 'red') or \
-                     (source_color == 'red' and target_color in ['green', 'black']):
-                    edge_color = 'red'
-                else:
-                    edge_color = 'black'
-                
-                g.edge(f"course_{source_id}",
-                       f"course_{target_id}",
-                       color=edge_color)  # Set arrow color
+                g.edge(f"course_{source_id}", f"course_{target_id}")
 
     elif relations_type == 'none':
         for course in courses:
@@ -212,12 +187,9 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
                     else:
                         rows_html += f'<TR><TD>{column_value}</TD></TR>'
 
-                node_color = 'darkgreen' if course[0] < 116320 else 'black'
                 g.node(f"course_{course[0]}",
                        label=html_template.format(rows=rows_html).strip().replace("\n", "\\n"),
-                       shape='plaintext',
-                       color=node_color)  # Set node color conditionally
-
+                       shape='plaintext')  # Set node color conditionally
     return str(g)
 
 # will prof notice?
@@ -267,8 +239,6 @@ def generate_major_graph_transcipt(major_id, courses, course_columns, relations,
 
     # Filter out the unnecessary course IDs
     courses_with_relations = courses_with_relations.intersection(actual_course_ids)
-
-    course_colors = {}
     
     # assume prereqs met
     non_student_courses = actual_course_ids - set(student_course_ids)
