@@ -220,6 +220,11 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
 
     return str(g)
 
+# will prof notice?
+@app.route('/coffee')
+def coffee():
+    return Response("I am a teapot", status=419, mimetype="text/plain")
+
 
 @app.route('/major/<int:major_id>')
 def major(major_id):
@@ -240,7 +245,73 @@ def major(major_id):
     return Response(
         generate_major_graph(major_id, courses, course_columns, relations, relations_columns, relations_type),
         mimetype="text/plain") if len(courses) > 0 else Response("404 No Major Found", status=404,
-                                                                 mimetype="text/plain")
+                                                                 mimetype="text/plain")     
+
+# TODO currently this only takes the unofficial transcript with ONLY courses, 
+# and not any other fluff, this needs to be fixed.
+# Also it does not check for grade satisfaction currently
+def parse_unnoficial_transcript(file):
+    parsed_data = []
+    for line in file:
+        line = line.decode('utf-8')
+        # print(line, flush=True)
+        elements = line.split()
+        course_code = elements[0] + " " + elements[1] 
+        parsed_data.append(course_code)
+            
+    return parsed_data
+
+def find_course_ids_from_short_names(parsed_data):
+    # Create a cursor object to execute SQL queries
+
+    with conn.cursor() as cursor:
+        # Prepare the SQL query
+        #TODO softmatching (this works, but has case sensitivity)
+        query = query = "SELECT course_id FROM Course WHERE course_name_short IN ({})".format(', '.join(['%s']*len(parsed_data)))
+        
+        cursor.execute(query, parsed_data)
+        results = cursor.fetchall()
+        course_ids = [result[0] for result in results]
+
+        return course_ids
+    return []
+
+        
+@app.route('/major/progress/<int:major_id>', methods =['POST'])
+def major_progress(major_id):
+    detail_level = request.args.get('detaillevel', default='low')
+
+    if detail_level == 'low':
+        courses, course_columns, relations, relations_columns = fetch_major_courses_low(major_id)
+    elif detail_level == 'medium':
+        courses, course_columns, relations, relations_columns = fetch_major_courses_medium(major_id)
+    elif detail_level == 'high':
+        courses, course_columns, relations, relations_columns = fetch_major_courses_high(major_id)
+    else:
+        # Handle invalid detail level here (e.g., return an error response)
+        return Response("Invalid detail level", status=400, mimetype="text/plain")
+    
+    if 'file' not in request.files:
+        return Response("400 No File", status = 400, mimetype="text/plain")
+    
+    file = request.files['file']
+
+    if file.filename == '':
+        return Response("400 Empty File", status = 400, mimetype="text/plain")
+
+    if not file:
+        return Response("400 Something went wrong with file", status = 400, mimetype="text/plain")
+        
+    file_content = file.stream.readlines()
+
+    parsed_data = parse_unnoficial_transcript(file_content)
+
+    # for course_code in parsed_data:
+    #     print(course_code, flush=True)
+    student_course_ids = find_course_ids_from_short_names(parsed_data)
+    #print(student_course_ids, flush=True)
+
+    return  Response('File uploaded and parsed successfully', status = 200, mimetype="text/plain")
 
 
 if __name__ == '__main__':
