@@ -161,7 +161,7 @@ function App() {
         )}
 
         <input type="file" onChange={handleFileChange} />
-        <button onClick={handleFileUpload}>Upload File</button> 
+        <button onClick={handleFileUpload}>Upload Transcript File</button> 
       <DAGViewer dot={dag} height="100vh" />
       <DAGViewer dot={dag2} height="100vh" />
       </header>
