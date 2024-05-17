@@ -4,9 +4,9 @@ services:
     restart: always
     build: 
       context: ./frontend
-      target: release  # Target the release stage of the Dockerfile
+      target: release
     ports:
-      - "5002:80"  # Map port 80 of the container to port 5002 of the host
+      - "5002:80" 
     depends_on:
       - middleware
 
@@ -51,4 +51,4 @@ services:
     depends_on: 
       - database
     ports:
-      - "2000:80"  # Visit the management page on localhost:2000
+      - "2000:80"

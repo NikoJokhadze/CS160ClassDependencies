@@ -195,7 +195,7 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
 # will prof notice?
 @app.route('/coffee')
 def coffee():
-    return Response("I am a teapot", status=419, mimetype="text/plain")
+    return Response("I am a teapot", status=418, mimetype="text/plain")
 
 
 @app.route('/major/<int:major_id>')

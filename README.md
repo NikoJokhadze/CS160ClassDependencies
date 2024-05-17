@@ -2,8 +2,8 @@
 
 ## Structure  
 - React Frontend Server with Nodejs (port 5002) 
-- API middleware (port 5001)  
-- Database with MySQL
+- Flask python API middleware (port 5001)  
+- Database with MariaDB
   - phpmyadmin (port 2000)
 
 ## Run Locally  
