@@ -9,9 +9,6 @@ const Navbar = () => {
         <div className ='navbar-siteTitle'>MajorView</div>
         <ul className ='navbar-menu'>
             <li className="navbar-item"><a href="/">Home</a></li>
-            <li className="navbar-item"><a href="/about">About</a></li>
-            <li className="navbar-item"><a href="/majorGraph">MajorGraph</a></li>
-            <li className="navbar-item"><a href="/personalGraph">personalGraph</a></li>
         </ul>
     </nav>
     )

@@ -78,3 +78,10 @@ def generate_major_graph(major_id, courses, course_columns, relations, relations
             g.edge(f"course_{relation[r_id]}", f"course_{relation[coid_id]}")
 
     return str(g)
+
+
+From Navbar:
+
+<li className="navbar-item"><a href="/about">About</a></li>
+<li className="navbar-item"><a href="/majorGraph">MajorGraph</a></li>
+<li className="navbar-item"><a href="/personalGraph">personalGraph</a></li>
